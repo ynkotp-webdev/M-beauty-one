@@ -46,6 +46,9 @@ const works = [
     { src: wProfile, alt: 'Макіяж і гладко зібране волосся, профіль', credit: 'Зачіска · Софія, макіяж · Таня' },
   ],
 ];
+// Телефон: ті самі роботи орбітою, як сторіз. Порядок — сітка з колонками навпаки, по рядах.
+const [c1, c2, c3, c4] = works;
+const wheel = [c3[0], c1[0], c3[1], c1[1], c4[0], c2[0], c4[1], c2[1]];
 const [leadReview, ...photoReviews] = rv.photos;
 const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4 5.9-.7z';
 ---
@@ -63,12 +66,12 @@ const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4
     </figure>
     <div class="l">
       <h1 class="serif">Салон краси в&nbsp;центрі Львова</h1>
-      <p class="mute">Макіяж, зачіски, брови, манікюр і догляд за волоссям.</p>
+      <p class="mute what">Макіяж, зачіски, брови, манікюр і догляд за волоссям.</p>
       <p class="mute spot">{salon.address}</p>
     </div>
     <div class="r">
       <p class="serif name">Маріанна</p>
-      <p class="mute">власниця салону, візажистка і бровістка</p>
+      <p class="mute">власниця салону<span class="more">, візажистка і бровістка</span></p>
       <a class="act act-lg" href={salon.booking} target="_blank" rel="noopener">Записатися онлайн</a>
     </div>
   </section>
@@ -178,6 +181,7 @@ const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4
           </div>
         ))}
       </div>
+      <div class="wheel"><StoryOrbit works={wheel} /></div>
     </div>
   </section>
 
@@ -283,13 +287,14 @@ const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4
   .r .act { margin-top: 1.25rem; }
 
   @media (max-width: 760px) {
-    .cover { min-height: calc(100svh - 3.5rem); padding: 114cqw var(--gut) 1.75rem; border-bottom: 2.25rem solid var(--color-paper); }
+    .cover { min-height: 0; padding: 114cqw var(--gut) 1.75rem; border-bottom: 2.25rem solid var(--color-paper); }
     .mast { font-size: 15.4cqw; top: 1cqw; }
     .plate { --pw: 78cqw; --px: 18cqw; --py: 9.5cqw; }
     .plate .mast { top: calc(1cqw - var(--py)); }
     .l, .r { position: static; width: auto; }
     .l p { margin-top: 0.6rem; font-size: var(--t-small); }
-    .l .spot { display: block; margin-top: 0.2rem; font-size: var(--t-small); }
+    .what, .more { display: none; }
+    .l .spot { display: block; }
     .r { margin-top: 1rem; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.6rem; }
     .r .mute { margin: 0; font-size: var(--t-small); }
     .r .act { margin-top: 0.4rem; flex-basis: 100%; }
@@ -325,6 +330,9 @@ const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4
   @media (max-width: 900px) {
     .salon .grid12 > * { grid-column: 1 / -1; grid-row: auto; }
     .room { margin: 0 calc(var(--gut) * -1); }
+    .room :global(img) { aspect-ratio: 4 / 3; }
+    /* Без колонок цитати й три фото частувань розтягували секцію на 2,5 екрана: лишаємо їх десктопу */
+    .voice, .guest, .t1, .t2, .t3 { display: none; }
     .facts { margin-top: 2rem; gap: 2.5rem; }
     .guest { margin-top: 4rem; }
     .treats { margin-top: 1.25rem; }
@@ -348,6 +356,8 @@ const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4
     .wall li { flex-basis: 100%; }
     .wall a { flex-direction: column; gap: 0; }
     .wall .p { max-width: none; margin-top: 0.15rem; }
+    .wall li:nth-child(even) { text-align: right; }
+    .wall li:nth-child(even) a { align-items: flex-end; }
     .p { max-width: none; margin-top: 0.7em; }
   }
 
@@ -383,6 +393,11 @@ const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4
     .pair, .pair:last-child { grid-template-columns: 1fr; gap: 1.25rem; }
     .pair .col, .pair:first-child .col:last-child, .pair:last-child .col:first-child, .pair:last-child .col:last-child { margin-top: 0; }
     .pair:last-child { margin-top: 4rem; }
+  }
+  .wheel { display: none; }
+  @media (max-width: 760px) {
+    .cols { display: none; }
+    .wheel { display: block; }
   }
 
   /* ---------- Весілля, анонс ---------- */
