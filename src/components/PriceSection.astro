@@ -1,0 +1,109 @@
+---
+// Один розділ прайсу. На телефоні згорнутий <details>, на широкому екрані відкритий (скрипт у tsiny.astro).
+import { salon, uah } from '../data/salon';
+import type { Section } from '../data/prices';
+
+interface Props { s: Section; open?: boolean; }
+const { s, open = false } = Astro.props;
+const two = !!s.twoPrices;
+---
+
+<details class="price" id={s.id} open={open}>
+  <summary>
+    <h2 class="serif h3">{s.title}</h2>
+    <span class="from small">від {uah(s.from)}</span>
+  </summary>
+
+  {s.lengths && (
+    <table class="len">
+      <caption>Ціна за довжиною волосся, від 1 до 5</caption>
+      <thead>
+        <tr>
+          <th scope="col">Послуга</th>
+          {s.lengths.head.map((h) => <th scope="col" class="num">{h}</th>)}
+          <th scope="col" class="t">Тривалість</th>
+        </tr>
+      </thead>
+      <tbody>
+        {s.lengths.rows.map((r) => (
+          <tr>
+            <th scope="row">{r.name}{r.note && <small>{r.note}</small>}</th>
+            {r.prices.map((p, i) => <td class="num" data-l={`довжина ${s.lengths!.head[i]}`}>{p ? uah(p) : ''}</td>)}
+            <td class="t" data-l="тривалість">{r.time}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+
+  {s.rows && (
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Послуга</th>
+          <th scope="col" class="t">Тривалість</th>
+          {two ? (<><th scope="col" class="num">Майстри</th><th scope="col" class="num">Маріанна</th></>) : <th scope="col" class="num">Ціна</th>}
+        </tr>
+      </thead>
+      <tbody>
+        {s.rows.map((r) => (
+          <tr>
+            <th scope="row">
+              {r.name}
+              {r.cond && <span class="cond">{r.cond}</span>}
+              {r.note && <small>{r.note}</small>}
+            </th>
+            <td class="t">{r.time}</td>
+            <td class="num">{uah(r.price)}</td>
+            {two && <td class="num">{r.price2 != null ? uah(r.price2) : <span class="sr">не робить</span>}</td>}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+
+  {s.foot?.map((f) => <p class="foot small">{f}</p>)}
+  <a class="act" href={salon.booking} target="_blank" rel="noopener">Записатися: {s.title.toLowerCase()}</a>
+</details>
+
+<style>
+  .price { scroll-margin-top: 1.5rem; }
+  summary { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; min-height: 3.25rem; padding-block: 0.5rem; cursor: pointer; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary h2 { font-size: var(--t-deck); }
+  .from { margin-left: auto; color: var(--mute); white-space: nowrap; }
+  summary::after { content: ''; width: 0.6rem; height: 0.6rem; margin-left: -0.25rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; rotate: 45deg; translate: 0 -0.2rem; transition: rotate 0.25s var(--ease-out); flex: none; }
+  .price[open] summary::after { rotate: 225deg; translate: 0 0.15rem; }
+  @media (min-width: 900px) {
+    summary { cursor: default; pointer-events: none; min-height: 0; padding: 0; }
+    summary::after, .from { display: none; }
+  }
+
+  table { width: 100%; margin-top: 0.75rem; border-collapse: collapse; font-size: var(--t-small); line-height: 1.35; }
+  caption { text-align: left; color: var(--mute); font-size: var(--t-small); padding-bottom: 0.25rem; }
+  thead th { font-weight: 400; font-size: var(--t-label); color: var(--mute); padding: 0.25rem 0 0.5rem; text-align: left; }
+  tbody th { font-weight: 400; text-align: left; padding: 0.5rem 0.5rem 0.5rem 0; }
+  tbody td { padding: 0.5rem 0; vertical-align: top; }
+  tbody tr { transition: color 0.2s; }
+  tbody tr:hover { color: var(--accent); }
+  small { display: block; margin-top: 0.15rem; font-size: var(--t-label); color: var(--mute); max-width: 44ch; }
+  .cond { display: block; margin-top: 0.15rem; font-size: var(--t-label); color: var(--accent); }
+  .t, thead .t { color: var(--mute); white-space: nowrap; padding-inline: 0.75rem 0.5rem; }
+  .len .t, .len thead .t { padding-left: 1.75rem; }
+  .num, thead .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums lining-nums; padding-left: 0.75rem; }
+  tbody .num { font-weight: 500; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .foot { margin-top: 0.75rem; color: var(--mute); max-width: 62ch; }
+  .act { margin-top: 0.75rem; }
+
+  /* Матриця довжин на телефоні: кожна послуга окремим блоком, без горизонтальної прокрутки */
+  @media (max-width: 640px) {
+    .len thead { display: none; }
+    .len, .len tbody, .len tr, .len th, .len td { display: block; }
+    .len tr { padding-block: 0.6rem; }
+    .len tbody th { padding: 0 0 0.35rem; font-weight: 500; }
+    .len td, .len .t { display: flex; justify-content: space-between; padding: 0.15rem 0; text-align: left; }
+    .len td::before { content: attr(data-l); color: var(--mute); font-weight: 400; }
+    table:not(.len) .t { display: none; }
+  }
+</style>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="uk">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>B · Обкладинка</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@62.5..100,100..900&family=Golos+Text:wght@400..700&display=block">
+<style>
+  :root { --ground:#3a251e; --ink:#e9e8e4; --mute:#c9bdb4; --brass:#d2ae6d; }
+  * { box-sizing:border-box; margin:0 }
+  body { background:var(--ground); color:var(--ink); font:400 16px/1.45 'Golos Text', sans-serif; overflow-x:hidden }
+  a { color:inherit; text-decoration:none }
+  nav { display:flex; gap:32px }
+  .serif { font-family:'Noto Serif Display', serif }
+  header { display:flex; align-items:center; gap:36px; height:64px; padding:0 48px; font-size:15px }
+  header address { font-style:normal; margin-right:auto; color:var(--mute); font-size:14px }
+  .book { border-bottom:1px solid var(--brass); padding:10px 0 4px; font-weight:500 }
+  .hero { position:relative; height:calc(100vh - 64px); min-height:790px }
+  .mast { position:absolute; left:0; right:0; top:-8px; text-align:center; font-size:16vw; line-height:1; font-weight:400; font-stretch:62.5%; text-transform:uppercase; letter-spacing:-.012em; white-space:nowrap }
+  .cover { position:absolute; left:50%; top:178px; width:452px; translate:-44% 0 }
+  .cover img { display:block; width:100%; aspect-ratio:3/4; object-fit:cover }
+  .left { position:absolute; left:48px; bottom:44px; width:380px }
+  h1 { font-size:60px; line-height:.98; font-weight:400; font-stretch:75%; letter-spacing:-.01em }
+  .left p { margin-top:18px; color:var(--mute); max-width:30ch }
+  .right { position:absolute; right:48px; bottom:44px; width:290px }
+  .right b { display:block; font-weight:400; font-size:44px; line-height:1; font-stretch:75% }
+  .right span { display:block; margin-top:8px; color:var(--mute) }
+  .right .book { display:inline-block; margin-top:28px; font-size:17px }
+  @media (max-width:700px) {
+    header { padding:0 16px; height:52px } header nav { display:none }
+    .hero { height:auto; min-height:0; padding:0 16px 28px }
+    .mast { position:static; font-size:15.4vw; margin:6px 0 0; line-height:1; text-align:left }
+    .cover { position:relative; left:auto; top:auto; translate:none; width:78%; margin:-3vw 0 0 auto }
+    .cover img { aspect-ratio:4/5; object-position:50% 10% }
+    .left, .right { position:static; width:auto }
+    .left { margin-top:18px } h1 { font-size:38px }
+    .left p { margin-top:10px; font-size:14px }
+    .right { margin-top:14px; display:flex; align-items:baseline; flex-wrap:wrap; gap:0 10px }
+    .right b { font-size:26px } .right span { margin:0; font-size:14px } .right .book { margin-top:8px }
+  }
+</style>
+<header>
+  <address>Львів, пл. Євгена Маланюка, 4</address>
+  <nav><a href="#">Послуги і ціни</a><a href="#">Весілля та події</a><a href="#">Як дістатися</a></nav>
+  <a class="book" href="#">Записатися</a>
+</header>
+<main class="hero">
+  <p class="mast serif" aria-hidden="true">M Beauty One</p>
+  <figure class="cover"><img src="../../content/instagram/marianna/full/659710147_18575227174031888_2462529160189285843_n.jpg" alt="Маріанна, власниця салону"></figure>
+  <div class="left">
+    <h1 class="serif">Салон краси в&nbsp;центрі Львова</h1>
+    <p>Макіяж, зачіски, брови, манікюр і догляд за волоссям.</p>
+  </div>
+  <div class="right">
+    <b class="serif">Маріанна</b>
+    <span>власниця салону, візажистка і бровістка</span>
+    <a class="book" href="#">Записатися онлайн</a>
+  </div>
+</main>
+</html>

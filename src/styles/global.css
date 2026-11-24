@@ -1,0 +1,89 @@
+@import "tailwindcss";
+@import "@fontsource-variable/noto-serif-display/wdth.css";
+@import "@fontsource-variable/golos-text";
+
+@theme {
+  --color-espresso: #3a251e; /* колір логотипа */
+  --color-paper: #e9e8e4; /* фон аватарки, «папір» розворотів */
+  --color-ink: #17100d; /* чорні рами дзеркал */
+  --color-brass: #d2ae6d; /* латунь, тільки на темному */
+  --color-brass-deep: #7a5a22; /* латунь для світлого фону, 5.17:1 */
+  --color-bark: #6b5248; /* другорядний текст на папері, 5.85:1 */
+  --color-sand: #cdbfb5; /* другорядний текст на еспресо, 8.01:1 */
+  --font-display: "Noto Serif Display Variable", "Times New Roman", serif;
+  --font-sans: "Golos Text Variable", system-ui, sans-serif;
+}
+
+:root {
+  --gut: clamp(1rem, 3.4vw, 3rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Шкала кеглів. Антиква: mega, headline, deck, title. Текст: lead, body, small, label */
+  --t-mega: clamp(2.75rem, 6.8vw, 6rem);
+  --t-headline: clamp(2.5rem, 5.2vw, 4.75rem);
+  --t-deck: clamp(1.875rem, 3.4vw, 3.25rem);
+  --t-title: clamp(1.625rem, 2.4vw, 2.125rem);
+  --t-lead: 1.125rem;
+  --t-body: 1rem;
+  --t-small: 0.9375rem;
+  --t-label: 0.8125rem;
+}
+
+html {
+  background: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+  scrollbar-color: var(--color-bark) var(--color-ink);
+  scroll-padding-top: 1.5rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+body {
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  line-height: 1.55;
+  color: var(--color-paper);
+  background: var(--color-espresso);
+  overflow-x: clip;
+  font-variant-numeric: lining-nums;
+}
+::selection { background: var(--color-brass); color: var(--color-ink); }
+:focus-visible { outline: 2px solid var(--accent, var(--color-brass)); outline-offset: 4px; }
+
+/* Поля: кожне задає свої другорядний текст і акцент */
+.on-espresso { background: var(--color-espresso); color: var(--color-paper); --mute: var(--color-sand); --accent: var(--color-brass); }
+.on-ink { background: var(--color-ink); color: var(--color-paper); --mute: var(--color-sand); --accent: var(--color-brass); }
+.on-paper { background: var(--color-paper); color: var(--color-espresso); --mute: var(--color-bark); --accent: var(--color-brass-deep); }
+.on-paper ::selection { background: var(--color-espresso); color: var(--color-paper); }
+
+/* Заголовний голос: вузька пряма антиква, без курсиву */
+.serif { font-family: var(--font-display); font-weight: 400; font-stretch: 72%; line-height: 1; letter-spacing: -0.012em; }
+.h2 { font-size: var(--t-headline); text-wrap: balance; }
+.h3 { font-size: var(--t-title); line-height: 1.08; }
+p, li, dd, blockquote { text-wrap: pretty; }
+.mute { color: var(--mute); }
+.small { font-size: var(--t-small); line-height: 1.45; }
+.nowrap { white-space: nowrap; }
+
+/* Дія: текст із латунною лінією. Єдиний вид кнопки на сайті */
+.act {
+  display: inline-flex; align-items: center; min-height: 2.75rem;
+  font-weight: 500; text-decoration: underline; text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px; text-underline-offset: 0.45em;
+  transition: text-underline-offset 0.25s var(--ease-out), text-decoration-thickness 0.25s var(--ease-out);
+}
+.act:hover { text-underline-offset: 0.28em; text-decoration-thickness: 2px; }
+.act-lg { font-size: var(--t-lead); }
+.link { text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); text-underline-offset: 0.25em; }
+.link:hover { text-decoration-color: var(--accent); }
+.tap { display: inline-flex; align-items: center; min-height: 2.75rem; }
+
+/* Підпис-кредит під роботою: тільки ім'я майстра, як у журналі */
+.credit { display: block; margin-top: 0.5rem; font-size: var(--t-label); line-height: 1.35; color: var(--mute); }
+
+figure img { display: block; width: 100%; height: auto; }
+
+.stars { display: inline-flex; gap: 2px; vertical-align: -0.12em; color: var(--accent); }
+.stars svg { width: 1em; height: 1em; fill: currentColor; }
+
+.wrap { padding-inline: var(--gut); }
+.grid12 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(0.75rem, 1.6vw, 1.5rem); }

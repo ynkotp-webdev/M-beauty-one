@@ -1,0 +1,135 @@
+---
+import '../styles/global.css';
+import serifLatin from '@fontsource-variable/noto-serif-display/files/noto-serif-display-latin-wdth-normal.woff2?url';
+import serifCyr from '@fontsource-variable/noto-serif-display/files/noto-serif-display-cyrillic-wdth-normal.woff2?url';
+import { salon, base } from '../data/salon';
+
+interface Props { title: string; description: string; }
+const { title, description } = Astro.props;
+const here = Astro.url.pathname.replace(/\/$/, '') || '/';
+const nav = [
+  { href: `${base}/tsiny`, label: 'Послуги і ціни', short: 'Ціни' },
+  { href: `${base}/vesillia`, label: 'Весілля та події', short: 'Весілля' },
+];
+---
+
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#3a251e" />
+    <link rel="icon" href={`${base}/logo-mark.png`} />
+    <link rel="preload" as="font" type="font/woff2" href={serifLatin} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={serifCyr} crossorigin />
+  </head>
+  <body>
+    <a class="skip" href="#main">До змісту</a>
+    <header class="top on-espresso">
+      <a class="brand" href={`${base}/`} aria-label="M Beauty One, головна">
+        <span class="mark" aria-hidden="true"></span>
+        <span class="addr">{salon.city}, {salon.address}</span>
+      </a>
+      <nav aria-label="Основна навігація">
+        {nav.map((n) => (
+          <a href={n.href} aria-current={here === n.href ? 'page' : undefined}>
+            <span class="lg">{n.label}</span><span class="sm">{n.short}</span>
+          </a>
+        ))}
+        <a class="lg" href="#kontakty">Контакти</a>
+      </nav>
+      <a class="act" href={salon.booking} target="_blank" rel="noopener">Записатися</a>
+    </header>
+
+    <main id="main">
+      <slot name="first" />
+      <div class="rest">
+        <slot />
+
+        <footer class="foot on-ink" id="kontakty">
+          <div class="wrap grid12 body">
+            <div class="lead">
+              <h2 class="serif h2">Запис і контакти</h2>
+              <p class="how mute">На послуги салону записуйтеся онлайн, там видно вільний час кожного майстра. Весілля та події обговорюємо в Instagram Direct або телефоном.</p>
+              <a class="act act-lg" href={salon.booking} target="_blank" rel="noopener">Записатися онлайн на bookon</a>
+            </div>
+            <div class="where">
+              <address>
+                {salon.city}, {salon.address}<br />
+                <a class="link tap" href={salon.route} target="_blank" rel="noopener">Прокласти маршрут</a>
+              </address>
+              <dl class="hours">
+                {salon.hours.map((h) => (<><dt>{h.days}</dt><dd>{h.time}</dd></>))}
+              </dl>
+            </div>
+            <ul class="ways">
+              <li><a class="link tel" href={`tel:${salon.phone}`}>{salon.phoneText}</a></li>
+              <li><a class="link" href={salon.instagram} target="_blank" rel="noopener">Instagram @m.beauty.one</a></li>
+              <li><a class="link" href={salon.threads} target="_blank" rel="noopener">Threads @m.beauty.one</a></li>
+            </ul>
+            <p class="note small mute">Це концепт сайту від YonkaAgency, зроблений без замовлення салону. Фото й тексти належать M Beauty One та авторам знімків.</p>
+          </div>
+          <p class="mast serif" aria-hidden="true">M Beauty One</p>
+        </footer>
+
+        <nav class="dock on-ink" aria-label="Швидкий зв'язок">
+          <a href={`tel:${salon.phone}`}>Дзвінок</a>
+          <a href={salon.instagram} target="_blank" rel="noopener">Instagram</a>
+          <a class="go" href={salon.booking} target="_blank" rel="noopener">Записатися</a>
+        </nav>
+      </div>
+    </main>
+  <!-- impeccable-live-start -->
+<script is:inline src="http://localhost:8400/live.js?token=68386183-83fa-4434-a254-cea911b80231"></script>
+<!-- impeccable-live-end -->
+</body>
+</html>
+
+<style>
+  .skip { position: absolute; left: var(--gut); top: -4rem; z-index: 50; padding: 0.75rem 1rem; background: var(--color-paper); color: var(--color-espresso); }
+  .skip:focus { top: 0.5rem; }
+
+  .top { display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2.25rem); min-height: 4rem; padding-inline: var(--gut); font-size: var(--t-small); }
+  .brand { display: flex; align-items: center; gap: 0.75rem; margin-right: auto; min-height: 2.75rem; color: var(--mute); }
+  .mark { width: 1.9rem; aspect-ratio: 292 / 290; background: var(--color-paper); mask: url(/logo-mark.png) center / contain no-repeat; }
+  .top nav { display: flex; gap: clamp(1rem, 2.4vw, 2.25rem); }
+  .top nav a { display: inline-flex; align-items: center; min-height: 2.75rem; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.45em; transition: text-decoration-color 0.2s; }
+  .top nav a:hover, .top nav a[aria-current] { text-decoration-color: var(--accent); }
+  .sm { display: none; }
+  @media (max-width: 760px) {
+    .addr, .lg, .top nav a.lg { display: none; }
+    .top, .top nav { gap: clamp(0.6rem, 3.6vw, 1rem); }
+    .sm { display: inline; }
+    .top { min-height: 3.5rem; }
+  }
+
+  /* Нижня панель телефона: липне до низу, але тільки поки видно .rest, тобто після першого екрана */
+  .rest { position: relative; }
+  .dock { display: none; }
+  @media (max-width: 760px) {
+    .dock { position: sticky; bottom: 0; z-index: 20; display: grid; grid-template-columns: 1fr 1fr 1.25fr; border-top: 1px solid color-mix(in srgb, var(--color-paper) 16%, transparent); padding-bottom: env(safe-area-inset-bottom); }
+    .dock a { display: grid; place-items: center; min-height: 3.25rem; font-size: var(--t-small); font-weight: 500; }
+    .dock .go { background: var(--color-paper); color: var(--color-espresso); }
+  }
+
+  .foot { padding-top: clamp(4rem, 9vw, 8rem); overflow: clip; }
+  .body { row-gap: 2.5rem; align-items: start; }
+  .lead { grid-column: 1 / span 5; grid-row: 1; }
+  .how { margin: 1.5rem 0 1rem; max-width: 44ch; }
+  .where { grid-column: 7 / span 3; grid-row: 1; display: grid; gap: 1.5rem; }
+  address { font-style: normal; font-size: var(--t-lead); }
+  .hours { display: grid; grid-template-columns: max-content max-content; gap: 0.25rem 1.5rem; }
+  .hours dt { color: var(--mute); }
+  .hours dd { font-variant-numeric: tabular-nums lining-nums; }
+  .ways { grid-column: 10 / span 3; grid-row: 1; display: grid; gap: 0.25rem; align-content: start; }
+  .ways a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+  .tel { font-size: var(--t-lead); }
+  .foot .mast { margin-top: 1rem; font-size: 16vw; text-transform: uppercase; text-align: center; white-space: nowrap; font-stretch: 62.5%; line-height: 1; height: 0.95em; color: var(--color-paper); }
+  .note { grid-column: 1 / span 7; grid-row: 2; max-width: 60ch; }
+  @media (max-width: 900px) {
+    .lead, .where, .ways, .note { grid-column: 1 / -1; grid-row: auto; }
+  }
+</style>

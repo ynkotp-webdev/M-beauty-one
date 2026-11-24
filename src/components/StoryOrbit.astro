@@ -1,0 +1,166 @@
+---
+// Сторіз по овальній орбіті: свайп мишею чи пальцем, кільце без кінця, грає тільки центральне відео.
+// Використовують головна (клієнтки) і весілля (наречені). Дані: src/data/reviews.ts, файли public/stories/.
+import { salon, base } from '../data/salon';
+import type { Story } from '../data/reviews';
+
+interface Props { title: string; stories: Story[]; }
+const { title, stories } = Astro.props;
+---
+
+<div class="sto">
+  <h3 class="serif h3">{title}</h3>
+  <p class="small mute">З актуальних <a class="link" href={salon.instagram} target="_blank" rel="noopener">@m.beauty.one</a>. Гортайте свайпом, натисніть на відео, щоб увімкнути звук.</p>
+</div>
+<ul class="orb" style={`--n: ${stories.length}`} tabindex="0" aria-roledescription="карусель" aria-label={`${title}. Гортайте свайпом або стрілками`}>
+  {stories.map((s) => (
+    <li class="card">
+      <div class="clip">
+        <img src={`${base}/stories/${s.file}.jpg`} alt="" loading="lazy" width="540" height="960" />
+        <video src={`${base}/stories/${s.file}.mp4`} muted loop playsinline preload="none" width="720" height="1280"></video>
+        {s.sound !== false && (
+          <button type="button" aria-pressed="false" aria-label={`Звук: ${s.credit}`}>
+            <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" /><path d="M16 9l5 6M21 9l-5 6" /></svg>
+            <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" /><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" /></svg>
+          </button>
+        )}
+      </div>
+      <div class="cap">
+        {s.quote && <p class="serif sq">«{s.quote}»</p>}
+        <p class="credit">{s.credit.replaceAll(' · ', ' · ')}</p>
+      </div>
+    </li>
+  ))}
+  <li class="nav">
+    <button type="button" class="act" data-step="-1" aria-label="Попередня сторіз">←</button>
+    <span class="count" aria-live="polite"></span>
+    <button type="button" class="act" data-step="1" aria-label="Наступна сторіз">→</button>
+  </li>
+</ul>
+
+<script>
+  // Сторіз по овальній орбіті. JS лише рахує зсув кожної картки від центру (--o), геометрію малює CSS.
+  // Кільце без кінця: зсув береться по модулю. Грає тільки центральне відео, звук вмикається натисканням.
+  for (const ul of document.querySelectorAll<HTMLUListElement>('.orb')) {
+    const cards = [...ul.querySelectorAll<HTMLLIElement>(':scope > .card')];
+    const n = cards.length, count = ul.querySelector('.count')!;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const mod = (x: number) => ((x % n) + n) % n;
+    let pos = 0, target = 0, raf = 0, seen = false, moved = false;
+    let drag: { id: number; x: number; p: number; lx: number; lt: number; vx: number } | null = null;
+    const front = () => mod(Math.round(target));
+    const step = () => cards[0].offsetWidth * 0.9 || 200;
+    const draw = () => cards.forEach((c, i) => {
+      let o = mod(i - pos); if (o > n / 2) o -= n;
+      c.style.setProperty('--o', o.toFixed(3));
+      c.style.zIndex = String(100 - Math.round(Math.abs(o) * 10));
+    });
+    const sync = () => {
+      const k = front();
+      count.textContent = `${k + 1} / ${n}`;
+      cards.forEach((c, i) => {
+        const v = c.querySelector('video')!, b = c.querySelector('button'), on = i === k;
+        c.toggleAttribute('data-front', on);
+        c.setAttribute('aria-hidden', String(!on));
+        if (b) b.tabIndex = on ? 0 : -1;
+        if (on && seen && !still) v.play().catch(() => {});
+        else if (!on || !seen) { v.pause(); v.muted = true; b?.setAttribute('aria-pressed', 'false'); }
+      });
+    };
+    const loop = () => {
+      pos += (target - pos) * 0.14;
+      if (Math.abs(target - pos) < 0.002) pos = target;
+      draw();
+      raf = pos === target ? 0 : requestAnimationFrame(loop);
+    };
+    const go = (t: number) => {
+      target = t; sync();
+      if (still) { pos = t; draw(); } else if (!raf) raf = requestAnimationFrame(loop);
+    };
+    ul.addEventListener('pointerdown', (e) => {
+      moved = false;
+      if (e.button !== 0 || (e.target as Element).closest('.nav')) return;
+      cancelAnimationFrame(raf); raf = 0;
+      drag = { id: e.pointerId, x: e.clientX, p: pos, lx: e.clientX, lt: e.timeStamp, vx: 0 };
+    });
+    ul.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.x;
+      if (!moved && Math.abs(dx) > 6) { moved = true; ul.setPointerCapture(e.pointerId); ul.dataset.drag = ''; }
+      if (!moved) return;
+      drag.vx = (e.clientX - drag.lx) / Math.max(e.timeStamp - drag.lt, 1);
+      drag.lx = e.clientX; drag.lt = e.timeStamp;
+      pos = drag.p - dx / step(); target = pos; draw();
+    });
+    const end = () => {
+      if (!drag) return;
+      const d = drag; drag = null; delete ul.dataset.drag;
+      const fling = Math.max(-2, Math.min(2, (d.vx * 160) / step()));
+      go(moved ? Math.round(pos - fling) : Math.round(target));
+      // клік після свайпу гаситься в обробнику click; якщо браузер його не надіслав, прапорець не має з'їсти наступний
+      if (moved) setTimeout(() => { moved = false; });
+    };
+    ul.addEventListener('pointerup', end);
+    ul.addEventListener('pointercancel', end);
+    ul.addEventListener('click', (e) => {
+      if (moved) { moved = false; e.preventDefault(); e.stopPropagation(); return; }
+      const t = e.target as Element;
+      const nav = t.closest<HTMLElement>('[data-step]');
+      if (nav) { go(Math.round(target) + Number(nav.dataset.step)); return; }
+      const c = t.closest<HTMLLIElement>('.card');
+      if (!c) return;
+      const i = cards.indexOf(c);
+      if (i !== front()) { let d = mod(i - Math.round(target)); if (d > n / 2) d -= n; go(Math.round(target) + d); return; }
+      const b = c.querySelector('button'), v = c.querySelector('video')!;
+      if (!b) return;
+      const on = b.getAttribute('aria-pressed') !== 'true';
+      b.setAttribute('aria-pressed', String(on)); v.muted = !on; v.play().catch(() => {});
+    }, true);
+    ul.addEventListener('keydown', (e) => {
+      const d = ({ ArrowRight: 1, ArrowLeft: -1 } as Record<string, number>)[e.key];
+      if (d) { e.preventDefault(); go(Math.round(target) + d); }
+    });
+    new IntersectionObserver(([e]) => { seen = e.isIntersecting; sync(); }, { threshold: 0.4 }).observe(ul);
+    draw(); sync();
+  }
+</script>
+
+<style>
+  .sto { grid-column: 1 / -1; margin-top: clamp(5rem, 9vw, 8rem); display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; flex-wrap: wrap; }
+  /* Сторіз: овальна орбіта. Картки дивляться на глядача, задні менші, темніші й вищі. --o ставить скрипт */
+  .orb {
+    --w: clamp(13rem, 20vw, 18rem); --h: calc(var(--w) * 16 / 9); --rx: 1.75;
+    grid-column: 1 / -1; position: relative; height: calc(var(--h) + 8.5rem); margin: 2.5rem calc(var(--gut) * -1) 0;
+    overflow: clip visible; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+    cursor: grab; -webkit-tap-highlight-color: transparent;
+  }
+  .orb[data-drag] { cursor: grabbing; }
+  .card {
+    --t: calc(var(--o, 0) * 360deg / max(var(--n, 8), 8)); /* --n: скільки сторіз; менше 8 — розходяться дугою, а не ховаються позаду */
+    --half: min(var(--n, 8) / 2, 3); /* скільки карток видно з кожного боку */
+    --k: calc((1 - cos(var(--t))) / 2); /* 0 спереду, 1 позаду */
+    --a: max(var(--o, 0), -1 * var(--o, 0));
+    position: absolute; left: 50%; top: 0; width: var(--w); margin-left: calc(var(--w) / -2);
+    transform-origin: 50% var(--h);
+    transform: translate(calc(sin(var(--t)) * var(--w) * var(--rx)), calc(var(--k) * var(--w) * -0.4)) scale(calc(1 - var(--k) * 0.9));
+    filter: brightness(calc(1 - var(--k) * 0.35));
+    opacity: clamp(0, (var(--half) - var(--a)) * 2, 1); /* задня частина кільця ховається */
+  }
+  .orb video { pointer-events: none; }
+  .card:not([data-front]) svg { opacity: 0; }
+  .cap { margin-top: 0.9rem; opacity: clamp(0, 1 - var(--a) * 3, 1); }
+  .nav { position: absolute; left: 50%; bottom: 0; translate: -50% 0; z-index: 300; display: flex; align-items: center; gap: 1.5rem; }
+  .nav .act { min-width: 2.75rem; justify-content: center; font-size: var(--t-lead); cursor: pointer; }
+  .count { min-width: 5ch; text-align: center; font-size: var(--t-small); color: var(--mute); font-variant-numeric: tabular-nums lining-nums; }
+  .clip { position: relative; aspect-ratio: 9 / 16; background: var(--color-espresso); }
+  /* Обкладинка — звичайна img з lazy, щоб усі постери не вантажилися разом зі сторінкою; відео лягає зверху */
+  .clip img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .clip video { position: relative; display: block; width: 100%; height: 100%; object-fit: cover; }
+  .clip button { position: absolute; inset: 0; display: flex; align-items: flex-start; justify-content: flex-end; padding: 0.5rem; cursor: pointer; }
+  .clip svg { width: 2rem; height: 2rem; padding: 0.4rem; background: var(--color-espresso); fill: none; stroke: var(--color-paper); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+  .clip svg path:first-child { fill: var(--color-paper); }
+  .clip [aria-pressed="true"] .off, .clip [aria-pressed="false"] .on { display: none; }
+  .sq { font-size: var(--t-lead); line-height: 1.15; font-stretch: 80%; }
+  .sq + .credit { margin-top: 0.35rem; }
+  @media (max-width: 600px) { .orb { --w: 60vw; --rx: 1.4; } }
+</style>

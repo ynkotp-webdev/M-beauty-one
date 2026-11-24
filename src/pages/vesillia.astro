@@ -1,0 +1,251 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import StoryOrbit from '../components/StoryOrbit.astro';
+import { salon, uah } from '../data/salon';
+import { active } from '../data/events';
+import { events, eventLead, brides } from '../data/reviews';
+import ruffles from '../assets/bride-ruffles.jpg';
+import veil from '../assets/bride-veil.jpg';
+import work from '../assets/bride-hair-work.jpg';
+import flowers from '../assets/bride-hair-flowers.jpg';
+import soft from '../assets/w-soft.jpg';
+
+const q = 68;
+const [lead, ...rest] = events;
+const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4 5.9-.7z';
+const timed = active(); // прайс 31.12 зникає після endDate під час наступної збірки
+const prices = [
+  { name: 'Bridal, весільний макіяж', note: '1 год 15 хв', price: uah(3000), extra: 'у Маріанни 4 000 ₴' },
+  { name: 'Весільна зачіска', note: 'Кріплення фати входить', price: uah(3000) },
+  { name: 'Make Up для гостей і мам', note: 'Поклейка вій і зона декольте входять', price: uah(2000) },
+  { name: 'Виїзд на локацію', note: 'Трансфер майстрів в обидва боки оплачується окремо', price: '100 $' },
+  { name: 'Вихід майстра до 09:00', price: '+500 ₴' },
+];
+---
+
+<Base
+  title="Весільний макіяж і зачіска у Львові: M Beauty One"
+  description="Весільний макіяж і зачіска у Львові в салоні M Beauty One: пробний образ, ранок нареченої в салоні на пл. Маланюка, виїзд на локацію. Ціни та як обговорити дату."
+>
+  <section slot="first" class="whead on-espresso">
+    <p class="word serif" aria-hidden="true">Весілля<Image class="head" src={ruffles} alt="" widths={[320, 480, 640, 960]} sizes="(max-width: 760px) 70vw, 29vw" quality={72} loading="eager" /></p>
+    <figure class="plate">
+      <Image src={ruffles} alt="Наречена в сукні з об'ємними рукавами, зачіска і макіяж M Beauty One" widths={[320, 480, 640, 960]} sizes="(max-width: 760px) 70vw, 29vw" quality={72} loading="eager" fetchpriority="high" />
+      <figcaption class="credit">Зачіска і макіяж · Наталі та Оксана</figcaption>
+    </figure>
+    <div class="l">
+      <h1 class="serif">Весільний макіяж і&nbsp;зачіска у&nbsp;Львові</h1>
+      <p class="mute">Дату, час і склад команди обговорюємо особисто, тому весільний запис ведемо в Instagram Direct або телефоном.</p>
+      <p class="acts">
+        <a class="act act-lg" href={salon.direct} target="_blank" rel="noopener">Обговорити дату в Direct</a>
+        <a class="link" href={`tel:${salon.phone}`}>{salon.phoneText}</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="formats on-paper">
+    <div class="wrap grid12">
+      <h2 class="serif h2">Три формати</h2>
+      <div class="f f1">
+        <h3 class="serif h3">Ранок нареченої в салоні</h3>
+        <p>Збираєтеся у нас, у центрі міста. Є де зробити кадри зборів, пригощаємо легкими частуваннями.</p>
+      </div>
+      <figure class="ph"><Image src={work} alt="Майстриня закінчує весільну зачіску в салоні" widths={[320, 480, 720]} sizes="(max-width: 900px) 100vw, 33vw" quality={q} loading="lazy" /></figure>
+      <div class="f f2">
+        <h3 class="serif h3">Виїзд на локацію</h3>
+        <p>Майстер або команда приїздять до вас, у Львові та за містом. Виїзд коштує 100&nbsp;$, трансфер оплачується окремо. Якщо починаємо до 09:00, додається 500&nbsp;₴.</p>
+      </div>
+      <div class="f f3">
+        <h3 class="serif h3">Пробний макіяж і зачіска</h3>
+        <p>Робимо образ заздалегідь, щоб погодити кожен елемент і в день весілля нічого не вирішувати на ходу.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cost on-espresso">
+    <div class="wrap grid12">
+      <figure class="ph"><Image src={veil} alt="Наречена у фаті" widths={[320, 480, 720, 960]} sizes="(max-width: 900px) 78vw, 33vw" quality={q} loading="lazy" /><figcaption class="credit">Макіяж · Марія, зачіска · Софія</figcaption></figure>
+      <div class="tbl">
+        <h2 class="serif h2">Ціни</h2>
+        <dl>
+          {prices.map((p) => (
+            <div>
+              <dt>{p.name}{p.note && <small>{p.note}</small>}</dt>
+              <dd>{p.price}{p.extra && <small>{p.extra}</small>}</dd>
+            </div>
+          ))}
+        </dl>
+        <h2 class="serif h3 how">Як усе проходить</h2>
+        <ol>
+          <li><b>Проба.</b> Пробний макіяж і зачіска до дня весілля.</li>
+          <li><b>Погодження.</b> Погоджуємо кожен елемент образу і де збираємося: у салоні чи на вашій локації.</li>
+          <li><b>Ранок весілля.</b> Повторюємо погоджений образ, фату кріпимо на місці.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="more on-paper">
+    <div class="wrap grid12">
+      <div class="txt">
+        <h2 class="serif h2">Не тільки весілля</h2>
+        <p>Так само збираємо на дівич-вечір, випускний, вручення дипломів і фотосесію. Робимо дитячі образи: легкий макіяж і акуратну зачіску до свята в садочку чи дня народження.</p>
+        <a class="act" href={salon.booking} target="_blank" rel="noopener">Записатися на макіяж і зачіску</a>
+      </div>
+      <figure class="p1"><Image src={soft} alt="Об'ємні локони і ніжний макіяж" widths={[240, 360, 540]} sizes="(max-width: 900px) 46vw, 22vw" quality={q} loading="lazy" /><figcaption class="credit">Макіяж · Марія, зачіска · Наталі</figcaption></figure>
+      <figure class="p2"><Image src={flowers} alt="Зачіска з хвилями і живими квітами" widths={[240, 360, 540]} sizes="(max-width: 900px) 46vw, 22vw" quality={q} loading="lazy" /></figure>
+    </div>
+  </section>
+
+  {timed.map((e) => (
+    <section class="nye on-ink" id={e.id}>
+      <div class="wrap grid12">
+        <div class="h">
+          <h2 class="serif h2">{e.title}</h2>
+          <p class="small mute">{e.source}. Діє до кінця дня.</p>
+        </div>
+        <dl class="slots">
+          {e.rows.map((r) => (<div><dt>{r.slot}</dt><dd>{uah(r.price)}</dd></div>))}
+        </dl>
+        <ul class="notes mute">{e.notes.map((n) => <li>{n}</li>)}</ul>
+      </div>
+    </section>
+  ))}
+
+  <section class="said on-paper">
+    <div class="wrap grid12">
+      <figure class="ph"><Image src={eventLead.photo} alt={eventLead.alt} widths={[320, 480, 720, 960]} sizes="(max-width: 900px) 100vw, 42vw" quality={q} loading="lazy" /><figcaption class="credit">{eventLead.credit}</figcaption></figure>
+      <div class="q">
+        <h2 class="serif h2">Відгуки про події</h2>
+        <blockquote class="big">
+          <span class="stars" role="img" aria-label={`${lead.stars} з 5 зірок`}>{Array.from({ length: lead.stars }, () => <svg viewBox="0 0 20 20" aria-hidden="true"><path d={star} /></svg>)}</span>
+          <p class="serif">{lead.text}</p>
+          <footer class="small mute">{lead.name}, {lead.about}, <a class="link" href={salon.maps} target="_blank" rel="noopener">відгук у Google</a></footer>
+        </blockquote>
+      </div>
+      <ul class="evs">
+        {rest.map((r) => (
+          <li>
+            <h3 class="serif">{r.event}</h3>
+            <span class="stars" role="img" aria-label={`${r.stars} з 5 зірок`}>{Array.from({ length: r.stars }, () => <svg viewBox="0 0 20 20" aria-hidden="true"><path d={star} /></svg>)}</span>
+            <blockquote>
+              <p>{r.text}</p>
+              <footer class="small mute">{r.name}, <a class="link" href={salon.maps} target="_blank" rel="noopener">відгук у Google</a></footer>
+            </blockquote>
+          </li>
+        ))}
+      </ul>
+      <StoryOrbit title="Наречені в сторіз" stories={brides} />
+      <p class="partner">Сукні на спільних зйомках від весільного салону Crystal Lviv, <a class="link tap" href="https://www.instagram.com/crystalsaloncomua/" target="_blank" rel="noopener">@crystalsaloncomua</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- Перший екран: слово лежить на фото, голова нареченої поверх літер ---------- */
+  /* --wt: верх слова; --px/--py/--pw: місце фото. Голова-вирізка бере ті самі числа, тож лягає точно на фото */
+  .whead { --wt: 6.5cqw; --px: 54cqw; --py: 16.5cqw; --pw: 26cqw; container-type: inline-size; position: relative; min-height: max(calc(100svh - 4rem), 57cqw); overflow: clip; }
+  .word { position: absolute; z-index: 1; left: 0; top: var(--wt); width: 100cqw; font-size: 23cqw; text-align: right; padding-right: var(--gut); white-space: nowrap; text-transform: uppercase; font-stretch: 62.5%; color: color-mix(in srgb, var(--color-paper) 92%, transparent); }
+  .plate { position: absolute; left: var(--px); top: var(--py); width: var(--pw); }
+  .plate > :global(img), .word > :global(.head) { aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 18%; }
+  /* Та сама фотографія, обрізана по контуру голови (відсотки від кадру 3:4). Літери проходять під нею */
+  .word > :global(.head) {
+    position: absolute; left: var(--px); top: calc(var(--py) - var(--wt)); width: var(--pw); height: auto;
+    clip-path: polygon(33.1% 37%, 33.1% 32%, 33.8% 29.5%, 34.5% 27.6%, 35.1% 27%, 35.8% 25.3%, 36.7% 23.7%, 37.6% 22%, 39.1% 20.3%, 40.9% 18.7%, 42.9% 17.3%, 45.1% 16.3%, 47.8% 15.7%, 50.9% 15.4%, 54.9% 15.4%, 57.1% 15.8%, 59.3% 16.6%, 61.3% 17.8%, 62.9% 19.3%, 64.2% 21.1%, 65.1% 23.1%, 65.6% 25.3%, 65.8% 28%, 65.8% 30.7%, 65.5% 33.3%, 65.1% 37%);
+  }
+  .l { position: absolute; left: var(--gut); bottom: clamp(2rem, 3.2cqw, 3rem); width: 40cqw; }
+  h1 { font-size: var(--t-headline); line-height: 0.98; text-wrap: balance; }
+  .l .mute { margin-top: 1.1rem; max-width: 46ch; }
+  .acts { margin-top: 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.75rem; }
+  .acts .link { display: inline-flex; align-items: center; min-height: 2.75rem; }
+  @media (max-width: 760px) {
+    .whead { --wt: 21cqw; --px: 26cqw; --py: 20.5cqw; --pw: 70cqw; min-height: calc(100svh - 3.5rem); padding: 118cqw var(--gut) 1.75rem; border-bottom: 2.25rem solid var(--color-paper); }
+    .word { font-size: 25.5cqw; text-align: left; padding: 0 0 0 var(--gut); }
+    .plate .credit { display: none; }
+    .l { position: static; width: auto; }
+    .l .mute { margin-top: 0.6rem; font-size: var(--t-small); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .plate { animation: lay 0.9s var(--ease-out) both; }
+    @keyframes lay { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+    .word > :global(.head) { animation: head-in 0.3s 0.75s both; }
+    @keyframes head-in { from { opacity: 0; } }
+  }
+
+  /* ---------- Три формати ---------- */
+  .formats { padding-block: clamp(4.5rem, 9vw, 9rem); }
+  .formats h2 { grid-column: 1 / span 4; grid-row: 1; }
+  .f p { margin-top: 0.75rem; max-width: 42ch; }
+  /* Три формати стоять поруч із фото зигзагом: справа вгорі, ліворуч на третині висоти, справа на двох третинах.
+     Фото тягнеться на три рівні рядки (1fr), тож кожен формат починається на своїй третині висоти фото */
+  .formats .grid12 { grid-template-rows: auto repeat(3, 1fr); }
+  .f1 { grid-column: 8 / span 5; grid-row: 2; align-self: start; margin-top: clamp(2rem, 4vw, 4rem); }
+  .f1 h3 { font-size: var(--t-deck); }
+  .ph { align-self: start; }
+  .formats .ph { grid-column: 1 / span 4; grid-row: 2 / span 3; margin: clamp(2rem, 4vw, 4rem) 0 0 calc(var(--gut) * -1); }
+  .f2 { grid-column: 5 / span 4; grid-row: 3; align-self: start; padding-left: clamp(0rem, 1.5vw, 1.5rem); }
+  .f3 { grid-column: 8 / span 5; grid-row: 4; align-self: start; }
+
+  /* ---------- Ціни і порядок ---------- */
+  .cost { padding-bottom: clamp(4.5rem, 9vw, 9rem); }
+  .cost .ph { grid-column: 9 / span 4; grid-row: 1; margin-top: clamp(-8rem, -8vw, -4rem); position: relative; z-index: 1; }
+  .tbl { grid-column: 1 / span 7; grid-row: 1; padding-top: clamp(4.5rem, 9vw, 9rem); }
+  .tbl dl { margin-top: 1.5rem; display: grid; gap: 1.1rem; max-width: 40rem; }
+  .tbl dl div { display: flex; justify-content: space-between; align-items: baseline; gap: 2rem; }
+  small { display: block; font-size: var(--t-label); color: var(--mute); margin-top: 0.15rem; }
+  .tbl dd { text-align: right; white-space: nowrap; font-weight: 500; font-variant-numeric: tabular-nums lining-nums; }
+  .tbl dd small { font-weight: 400; }
+  .how { margin-top: clamp(3rem, 6vw, 5rem); }
+  ol { margin-top: 1.25rem; display: grid; gap: 0.9rem; max-width: 46ch; counter-reset: step; }
+  ol li { counter-increment: step; position: relative; padding-left: 1.75rem; color: var(--mute); }
+  ol li::before { content: counter(step); position: absolute; left: 0; color: var(--accent); font-variant-numeric: lining-nums; }
+  ol b { font-weight: 500; color: var(--color-paper); }
+
+  /* ---------- Не тільки весілля ---------- */
+  .more { padding-block: clamp(4.5rem, 9vw, 9rem); }
+  .more .txt { grid-column: 1 / span 5; display: grid; gap: 1.25rem; justify-items: start; align-content: start; }
+  .more .txt p { max-width: 46ch; }
+  .p1 { grid-column: 7 / span 3; }
+  .p2 { grid-column: 10 / span 3; margin-top: 6rem; margin-right: calc(var(--gut) * -1); }
+
+  /* ---------- 31 грудня ---------- */
+  .nye { padding-block: clamp(4rem, 8vw, 7.5rem); }
+  .nye .h { grid-column: 1 / span 4; display: grid; gap: 0.75rem; align-content: start; }
+  .slots { grid-column: 6 / span 4; display: grid; gap: 0.6rem; align-content: start; }
+  .slots div { display: flex; justify-content: space-between; gap: 2rem; font-variant-numeric: tabular-nums lining-nums; }
+  .slots dd { font-weight: 500; }
+  .notes { grid-column: 10 / span 3; display: grid; gap: 0.5rem; font-size: var(--t-small); align-content: start; }
+
+  /* ---------- Відгуки ---------- */
+  .said { padding-block: clamp(4.5rem, 9vw, 9rem); }
+  .said .ph { grid-column: 1 / span 5; margin-left: calc(var(--gut) * -1); }
+  .said .ph :global(img) { aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
+  .q { grid-column: 7 / span 6; display: grid; gap: 2rem; align-content: start; }
+  .q .big { display: grid; gap: 1rem; justify-items: start; }
+  .q .big p { font-size: var(--t-deck); line-height: 1.1; font-stretch: 80%; }
+  .said .stars { font-size: 1rem; }
+  /* Решта відгуків: рубрики журналу, подія великим кеглем над цитатою */
+  .evs { grid-column: 1 / -1; margin-top: clamp(4rem, 8vw, 7rem); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem clamp(2rem, 5vw, 5rem); }
+  .evs li { display: grid; gap: 0.9rem; align-content: start; justify-items: start; }
+  .evs h3 { font-size: var(--t-deck); line-height: 1; font-stretch: 72%; text-wrap: balance; }
+  .evs p { max-width: 40ch; }
+  .evs footer { margin-top: 0.5rem; }
+  .partner { grid-column: 1 / -1; margin-top: 2.5rem; color: var(--mute); }
+
+  @media (max-width: 900px) {
+    .formats .grid12 > *, .cost .grid12 > *, .more .grid12 > *, .nye .grid12 > *, .said .grid12 > * { grid-column: 1 / -1; grid-row: auto; }
+    .evs { grid-template-columns: 1fr; gap: 2.5rem; margin-top: 3.5rem; }
+    .formats .grid12 { grid-template-rows: none; }
+    .f2 { padding-left: 0; }
+    .f1, .f2, .f3 { margin-top: 2rem; }
+    .formats .ph { margin: 2.5rem calc(var(--gut) * -1) 0; }
+    .cost .ph { width: 78%; margin: -3rem 0 0 auto; }
+    .tbl { padding-top: 3rem; }
+    .p1 { width: 62%; margin-top: 2.5rem; }
+    .p2 { width: 52%; margin: 1.25rem 0 0 auto; }
+    .slots, .notes { margin-top: 1.75rem; }
+    .said .ph { margin: 0 calc(var(--gut) * -1); }
+    .q { margin-top: 2.5rem; }
+  }
+</style>

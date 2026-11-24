@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import { salon, base } from '../data/salon';
+---
+
+<Base title="Сторінку не знайдено: M Beauty One" description="Такої сторінки на сайті салону M Beauty One немає.">
+  <section slot="first" class="lost on-espresso">
+    <p class="num serif" aria-hidden="true">404</p>
+    <div class="wrap">
+      <h1 class="serif">Такої сторінки немає</h1>
+      <p class="mute">Можливо, посилання застаріло. Ось що є на сайті:</p>
+      <ul>
+        <li><a class="act" href={`${base}/`}>Головна</a></li>
+        <li><a class="act" href={`${base}/tsiny`}>Послуги і ціни</a></li>
+        <li><a class="act" href={`${base}/vesillia`}>Весілля та події</a></li>
+        <li><a class="act" href={salon.booking} target="_blank" rel="noopener">Записатися онлайн</a></li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lost { position: relative; overflow: clip; min-height: 100svh; display: grid; align-content: end; padding-bottom: clamp(2.5rem, 6vw, 5rem); }
+  .num { position: absolute; right: var(--gut); top: -0.06em; font-size: 38vw; font-stretch: 62.5%; color: color-mix(in srgb, var(--color-paper) 14%, transparent); }
+  h1 { position: relative; font-size: var(--t-headline); }
+  p { position: relative; margin-top: 1rem; }
+  ul { position: relative; margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0 2rem; }
+</style>

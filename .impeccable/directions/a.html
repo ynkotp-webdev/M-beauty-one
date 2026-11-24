@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="uk">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>A · Контактний лист</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Commissioner:FLAR,VOLM,wght@0..100,0..100,100..900&display=block">
+<style>
+  :root { --ground:#15100d; --film:#060403; --ink:#e9e8e4; --mute:#a99f97; --wax:#f2c230; }
+  * { box-sizing:border-box; margin:0 }
+  body { background:var(--ground); color:var(--ink); font:400 16px/1.45 Commissioner, sans-serif; overflow-x:hidden }
+  a { color:inherit; text-decoration:none }
+  nav { display:flex; gap:32px }
+  .flare { font-variation-settings:'FLAR' 100, 'VOLM' 0 }
+  header { display:flex; align-items:center; gap:36px; height:72px; padding:0 48px; font-size:15px }
+  header .logo { display:flex; align-items:center; gap:12px; margin-right:auto; font-size:17px; letter-spacing:.02em }
+  header .logo i { display:block; width:34px; height:35px; overflow:hidden; mix-blend-mode:lighten }
+  header .logo img { display:block; width:61px; height:61px; margin:-9px 0 0 -13px; filter:invert(1) contrast(1.5) }
+  .book { position:relative; padding:12px 0; font-weight:500 }
+  .book svg { position:absolute; left:-6px; right:-6px; bottom:2px; width:calc(100% + 12px); height:10px }
+  .hero { position:relative; height:calc(100vh - 72px); min-height:780px }
+  .sheet { position:absolute; left:48px; top:20px; width:528px; display:grid; gap:6px }
+  .strip { background:var(--film); padding:6px 12px 5px; position:relative }
+  .edge { display:flex; justify-content:space-between; font-size:9px; letter-spacing:.14em; color:#8d837b; text-transform:uppercase; height:16px; align-items:center }
+  .frames { display:grid; grid-template-columns:repeat(4,1fr); gap:8px }
+  .frames img, .frames i { display:block; width:100%; aspect-ratio:3/4; object-fit:cover; background:#0d0907 }
+  .nums { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; font-size:9px; letter-spacing:.14em; color:#8d837b; height:16px; align-items:center }
+  .ring { position:absolute; pointer-events:none; left:2px; top:10px; width:148px; height:196px; overflow:visible }
+  .print { position:absolute; left:618px; top:14px; width:462px; rotate:1.2deg; box-shadow:0 30px 60px -30px #000 }
+  .print img { display:block; width:100%; aspect-ratio:3/4; object-fit:cover }
+  .col { position:absolute; left:1122px; top:20px; width:270px; height:616px; display:flex; flex-direction:column }
+  h1 { font-size:34px; line-height:1.08; font-weight:400; letter-spacing:-.01em }
+  .col p { margin-top:14px; color:var(--mute); font-size:15px }
+  .col address { font-style:normal; margin-top:10px; font-size:13px; color:var(--mute) }
+  .who { margin-top:auto; font-size:15px; color:var(--mute) }
+  .who b { display:block; color:var(--ink); font-weight:400; font-size:26px; line-height:1.1; margin-bottom:6px }
+  .col .book { align-self:flex-start; margin-top:26px; font-size:17px }
+  .wm { position:absolute; left:42px; bottom:6px; font-size:148px; line-height:1; font-weight:250; letter-spacing:-.035em; white-space:nowrap }
+  .m-only, .frames .m-only { display:none }
+  @media (max-width:700px) {
+    header { padding:0 16px; height:56px } header nav { display:none }
+    .hero { height:auto; min-height:0; padding:0 16px 28px }
+    .print, .sheet, .col, .wm { position:static; width:auto; rotate:none }
+    .print img { aspect-ratio:358/392; object-position:50% 12% }
+    .sheet { margin:8px -16px 0; display:block }
+    .sheet .strip:not(:last-child) { display:none }
+    .sheet .strip { padding-left:16px; overflow:hidden; width:100vw }
+    .frames, .nums { grid-template-columns:repeat(5,84px) }
+    .ring { left:9px; top:13px; width:100px; height:136px }
+    .wm { font-size:14.6vw; margin:18px 0 0 -3px; line-height:1.1 }
+    .col { height:auto; margin-top:8px }
+    h1 { font-size:22px } .col p { font-size:14px; margin-top:8px }
+    .who { margin-top:14px } .who b { font-size:20px; display:inline; margin-right:6px }
+    .col .book { margin-top:10px }
+    .d-only, .frames .d-only { display:none } .m-only, .frames .m-only { display:block }
+  }
+</style>
+<header>
+  <a class="logo" href="#"><i><img src="../../content/photos/best/brand/logo-avatar-500.png" alt=""></i><span class="flare">M Beauty One</span></a>
+  <nav><a href="#">Послуги і ціни</a><a href="#">Весілля та події</a><a href="#">Як дістатися</a></nav>
+  <a class="book" href="#">Записатися<svg viewBox="0 0 120 10" preserveAspectRatio="none"><path d="M2 6 C 30 2, 60 9, 118 4" fill="none" stroke="#f2c230" stroke-width="2.4" stroke-linecap="round"/></svg></a>
+</header>
+<main class="hero">
+  <figure class="print"><img src="../../content/instagram/marianna/full/661740369_18575227135031888_783305723935243696_n.jpg" alt="Маріанна, власниця салону"></figure>
+  <div class="sheet">
+    <div class="strip d-only">
+      <div class="edge"><span>M Beauty One</span><span>Маріанна</span><span>Студія</span></div>
+      <div class="frames">
+        <img src="../../content/instagram/marianna/full/659689199_18575227165031888_4723849023041924460_n.jpg" alt="">
+        <img src="../../content/instagram/marianna/full/659710147_18575227174031888_2462529160189285843_n.jpg" alt="">
+        <img src="../../content/instagram/marianna/full/660009454_18575227219031888_9014841017674131450_n.jpg" alt="">
+        <img src="../../content/instagram/marianna/full/660423653_18575227183031888_7880890227323458049_n.jpg" alt="">
+      </div>
+      <div class="nums"><span>1</span><span>2</span><span>3</span><span>4</span></div>
+    </div>
+    <div class="strip d-only">
+      <div class="edge"><span>M Beauty One</span><span>Маріанна</span><span>Студія</span></div>
+      <div class="frames">
+        <img src="../../content/instagram/marianna/full/660455143_18575227192031888_816041605925220558_n.jpg" alt="">
+        <img src="../../content/instagram/marianna/full/660498302_18575227237031888_4553713661917042059_n.jpg" alt="">
+        <img src="../../content/instagram/marianna/full/660542119_18575227144031888_1238059804705625927_n.jpg" alt="">
+        <img src="../../content/instagram/marianna/full/661165205_18575227228031888_4470461482000354563_n.jpg" alt="">
+      </div>
+      <div class="nums"><span>5</span><span>6</span><span>7</span><span>8</span></div>
+    </div>
+    <div class="strip">
+      <div class="edge"><span>M Beauty One</span><span>Маріанна</span><span class="d-only">Студія</span></div>
+      <div class="frames">
+        <img src="../../content/instagram/marianna/full/661740369_18575227135031888_783305723935243696_n.jpg" alt="">
+        <img src="../../content/instagram/marianna/full/662012204_18575227156031888_2062899874986866555_n.jpg" alt="">
+        <img src="../../content/instagram/marianna/full/662298870_18575227210031888_6278237496063661130_n.jpg" alt="">
+        <img class="m-only" src="../../content/instagram/marianna/full/659710147_18575227174031888_2462529160189285843_n.jpg" alt="">
+        <img class="m-only" src="../../content/instagram/marianna/full/660455143_18575227192031888_816041605925220558_n.jpg" alt="">
+        <i class="d-only"></i>
+      </div>
+      <div class="nums"><span>9</span><span>10</span><span>11</span><span class="m-only">2</span><span class="m-only">5</span></div>
+      <svg class="ring" viewBox="0 0 148 196"><path d="M20 14 C 60 -2, 128 2, 140 46 C 152 96, 146 168, 108 186 C 66 202, 14 190, 8 140 C 2 92, 0 30, 34 10" fill="none" stroke="#f2c230" stroke-width="3.2" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+  <div class="col">
+    <h1 class="flare">Салон краси в&nbsp;центрі Львова</h1>
+    <p>Макіяж, зачіски, брови, манікюр і догляд за волоссям.</p>
+    <address>пл. Євгена Маланюка, 4</address>
+    <div class="who"><b class="flare">Маріанна</b>власниця салону, візажистка і бровістка</div>
+    <a class="book" href="#">Записатися онлайн<svg viewBox="0 0 120 10" preserveAspectRatio="none"><path d="M2 6 C 30 2, 60 9, 118 4" fill="none" stroke="#f2c230" stroke-width="2.4" stroke-linecap="round"/></svg></a>
+  </div>
+  <p class="wm flare" aria-hidden="true">M Beauty One</p>
+</main>
+</html>

@@ -1,0 +1,346 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-21T23:10:00Z",
+  "title": "Design System: M Beauty One",
+  "extensions": {
+    "colorMeta": {
+      "espresso": {
+        "role": "primary",
+        "displayName": "Еспресо",
+        "canonical": "#3a251e",
+        "tonalRamp": [
+          "#1f130f",
+          "#3a251e",
+          "#573a30",
+          "#775345",
+          "#987263",
+          "#b79688",
+          "#d6bfb5",
+          "#f1e6e1"
+        ]
+      },
+      "brass": {
+        "role": "secondary",
+        "displayName": "Латунь",
+        "canonical": "#d2ae6d",
+        "tonalRamp": [
+          "#2e2109",
+          "#4f3a14",
+          "#7a5a22",
+          "#a17c3a",
+          "#c09a55",
+          "#d2ae6d",
+          "#e3cb9c",
+          "#f4ead3"
+        ]
+      },
+      "brass-deep": {
+        "role": "secondary",
+        "displayName": "Темна латунь",
+        "canonical": "#7a5a22",
+        "tonalRamp": [
+          "#2a1e08",
+          "#4a3612",
+          "#7a5a22",
+          "#96732f",
+          "#b18e4a",
+          "#c9aa6c",
+          "#dfc99b",
+          "#f2e8d0"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Папір",
+        "canonical": "#e9e8e4",
+        "tonalRamp": [
+          "#1e1d1b",
+          "#3a3936",
+          "#5a5955",
+          "#7c7b76",
+          "#9f9e99",
+          "#c2c1bc",
+          "#e9e8e4",
+          "#f6f5f3"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Чорнило",
+        "canonical": "#17100d",
+        "tonalRamp": [
+          "#17100d",
+          "#2a1f1a",
+          "#40312a",
+          "#59463d",
+          "#766056",
+          "#978177",
+          "#bcaaa1",
+          "#e4dad5"
+        ]
+      },
+      "bark": {
+        "role": "neutral",
+        "displayName": "Кора",
+        "canonical": "#6b5248",
+        "tonalRamp": [
+          "#231915",
+          "#3d2d27",
+          "#57423a",
+          "#6b5248",
+          "#8a7066",
+          "#a99287",
+          "#c9b8af",
+          "#e9dfda"
+        ]
+      },
+      "sand": {
+        "role": "neutral",
+        "displayName": "Пісок",
+        "canonical": "#cdbfb5",
+        "tonalRamp": [
+          "#251d19",
+          "#43362f",
+          "#635249",
+          "#857166",
+          "#a79287",
+          "#cdbfb5",
+          "#e0d6cf",
+          "#f3eeea"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Слово-масштаб, на которое кладётся фото: «M Beauty One», «Весілля», «404». Прописные, wdth 62.5%, всегда aria-hidden."
+      },
+      "mega": {
+        "displayName": "Mega",
+        "purpose": "Названия направлений в стене услуг, цитата «ти наш бажаний гість», H1 страницы цен. Переменная --t-mega."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "H1 обложки и страницы весілля, все H2 разворотов. H1 никогда не мельче H2. Переменная --t-headline."
+      },
+      "deck": {
+        "displayName": "Deck",
+        "purpose": "Цитаты в несколько строк, имя Маріанни на обложке, названия разделов прайса. Переменная --t-deck."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "H3, подзаголовок под H2, якоря разделов на странице цен. Переменная --t-title."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Ведущие абзацы, крупное действие, адрес и телефон, тексты отзывов. Переменная --t-lead."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Весь текст для чтения; вес 500 для действий, цен и выделений."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Навигация, таблицы прайса, второстепенные строки, подписи к цитатам. Переменная --t-small."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Кредиты под фото, шапки колонок прайса, примечания, авторы отзывов."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Единая кривая: линия действия, цвет названия при наведении, стрелка раздела, укладка отпечатка."
+      },
+      {
+        "name": "lay",
+        "value": "clip-path: inset(0 0 100% 0) -> inset(0); 0.9s var(--ease-out) both",
+        "purpose": "Отпечаток первого экрана ложится на страницу сверху вниз при загрузке."
+      },
+      {
+        "name": "rise",
+        "value": "translate: 0 -6cqw; animation-timeline: scroll(root); animation-range: 0 90vh",
+        "purpose": "Портрет обложки поднимается поверх названия на первых 90vh прокрутки."
+      },
+      {
+        "name": "sink",
+        "value": "translate: 0 6cqw; animation-timeline: scroll(root); animation-range: 0 90vh",
+        "purpose": "Буквы внутри портрета опускаются на столько же и остаются на месте относительно страницы."
+      },
+      {
+        "name": "act-underline",
+        "value": "text-underline-offset 0.25s, text-decoration-thickness 0.25s",
+        "purpose": "Наведение на действие: линия подтягивается и утолщается."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "len-table",
+        "value": "640px"
+      },
+      {
+        "name": "phone",
+        "value": "760px"
+      },
+      {
+        "name": "spread",
+        "value": "900px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Дія",
+      "kind": "button",
+      "refersTo": "act",
+      "description": "Единственный вид действия: текст с латунной линией. На тёмном поле.",
+      "html": "<div class=\"ds-field-espresso\"><a class=\"ds-act ds-act-lg\" href=\"#\">Записатися онлайн</a></div>",
+      "css": ".ds-field-espresso { background: var(--color-espresso); color: var(--color-paper); --accent: var(--color-brass); padding: 24px; font-family: var(--font-sans); } .ds-act { display: inline-flex; align-items: center; min-height: 2.75rem; color: inherit; font-weight: 500; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 0.45em; transition: text-underline-offset 0.25s cubic-bezier(0.16, 1, 0.3, 1), text-decoration-thickness 0.25s cubic-bezier(0.16, 1, 0.3, 1); } .ds-act:hover { text-underline-offset: 0.28em; text-decoration-thickness: 2px; } .ds-act:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; } .ds-act-lg { font-size: 1.125rem; }"
+    },
+    {
+      "name": "Дія на папері",
+      "kind": "button",
+      "refersTo": "act-on-paper",
+      "description": "То же действие на бумаге: линия цвета brass-deep.",
+      "html": "<div class=\"ds-field-paper\"><a class=\"ds-act-p\" href=\"#\">Записатися: брови</a></div>",
+      "css": ".ds-field-paper { background: var(--color-paper); color: var(--color-espresso); --accent: var(--color-brass-deep); padding: 24px; font-family: var(--font-sans); } .ds-act-p { display: inline-flex; align-items: center; min-height: 2.75rem; color: inherit; font-weight: 500; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 0.45em; transition: text-underline-offset 0.25s cubic-bezier(0.16, 1, 0.3, 1), text-decoration-thickness 0.25s cubic-bezier(0.16, 1, 0.3, 1); } .ds-act-p:hover { text-underline-offset: 0.28em; text-decoration-thickness: 2px; } .ds-act-p:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }"
+    },
+    {
+      "name": "Навігація",
+      "kind": "nav",
+      "description": "Шапка на эспрессо: знак и адрес слева, ссылки и действие справа.",
+      "html": "<header class=\"ds-top\"><span class=\"ds-top-addr\">Львів, пл. Євгена Маланюка, 4</span><nav class=\"ds-top-nav\"><a href=\"#\" aria-current=\"page\">Послуги і ціни</a><a href=\"#\">Весілля та події</a><a href=\"#\">Контакти</a></nav><a class=\"ds-top-act\" href=\"#\">Записатися</a></header>",
+      "css": ".ds-top { display: flex; align-items: center; gap: 2rem; min-height: 4rem; padding-inline: 1.5rem; background: var(--color-espresso); color: var(--color-paper); font-family: var(--font-sans); font-size: 0.9375rem; } .ds-top-addr { margin-right: auto; color: var(--color-sand); } .ds-top-nav { display: flex; gap: 2rem; } .ds-top-nav a { display: inline-flex; align-items: center; min-height: 2.75rem; color: inherit; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.45em; transition: text-decoration-color 0.2s; } .ds-top-nav a:hover, .ds-top-nav a[aria-current] { text-decoration-color: var(--color-brass); } .ds-top-act { display: inline-flex; align-items: center; min-height: 2.75rem; color: inherit; font-weight: 500; text-decoration: underline; text-decoration-color: var(--color-brass); text-decoration-thickness: 1px; text-underline-offset: 0.45em; transition: text-underline-offset 0.25s cubic-bezier(0.16, 1, 0.3, 1); } .ds-top-act:hover { text-underline-offset: 0.28em; text-decoration-thickness: 2px; } .ds-top a:focus-visible { outline: 2px solid var(--color-brass); outline-offset: 4px; }"
+    },
+    {
+      "name": "Відбиток на слові",
+      "kind": "custom",
+      "description": "Сигнатура: слово кеглем Display и прямоугольный отпечаток поверх букв; буквы под фото перекрашены в цвет поля.",
+      "html": "<div class=\"ds-cover\"><p class=\"ds-cover-mast\">M Beauty One</p><div class=\"ds-cover-plate\"><span class=\"ds-cover-mast\">M Beauty One</span></div></div>",
+      "css": ".ds-cover { container-type: inline-size; position: relative; height: 0; padding-bottom: 46%; overflow: clip; background: var(--color-espresso); color: var(--color-paper); } .ds-cover-mast { position: absolute; left: 0; top: 0.4cqw; width: 100cqw; margin: 0; font-family: var(--font-display); font-weight: 400; font-stretch: 62.5%; font-size: 16cqw; line-height: 1; letter-spacing: -0.012em; text-align: center; white-space: nowrap; text-transform: uppercase; } .ds-cover-plate { position: absolute; left: 36.2cqw; top: 10.6cqw; width: 31.4cqw; aspect-ratio: 3 / 4; overflow: hidden; background: var(--color-paper); } .ds-cover-plate .ds-cover-mast { left: -36.2cqw; top: calc(0.4cqw - 10.6cqw); color: var(--color-espresso); }"
+    },
+    {
+      "name": "Стіна послуг",
+      "kind": "custom",
+      "description": "Оглавление номера: названия направлений антиквой, рядом мелко «від …».",
+      "html": "<ul class=\"ds-wall\"><li><a href=\"#\"><span class=\"ds-wall-n\">Макіяж</span><span class=\"ds-wall-p\">від 2 000 ₴</span></a></li><li><a href=\"#\"><span class=\"ds-wall-n\">Брови</span><span class=\"ds-wall-p\">від 350 ₴</span></a></li><li><a href=\"#\"><span class=\"ds-wall-n\">Зачіски</span><span class=\"ds-wall-p\">від 1 300 ₴</span></a></li></ul>",
+      "css": ".ds-wall { display: flex; flex-wrap: wrap; column-gap: 3rem; row-gap: 0.5rem; margin: 0; padding: 24px; list-style: none; background: var(--color-espresso); color: var(--color-paper); } .ds-wall a { display: inline-flex; align-items: flex-start; gap: 0.6rem; min-height: 2.75rem; color: inherit; text-decoration: none; } .ds-wall-n { font-family: var(--font-display); font-weight: 400; font-stretch: 72%; font-size: clamp(2.75rem, 6.8vw, 6rem); line-height: 1; letter-spacing: -0.012em; transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1); } .ds-wall-p { margin-top: 0.85em; font-family: var(--font-sans); font-size: 0.9375rem; line-height: 1.3; color: var(--color-sand); } .ds-wall a:hover .ds-wall-n { color: var(--color-brass); } .ds-wall a:focus-visible { outline: 2px solid var(--color-brass); outline-offset: 4px; }"
+    },
+    {
+      "name": "Прайс",
+      "kind": "custom",
+      "description": "Таблица цен без линеек, две колонки цен там, где владелица работает сама.",
+      "html": "<div class=\"ds-price\"><h3 class=\"ds-price-h\">Вії</h3><table><thead><tr><th>Послуга</th><th class=\"ds-price-t\">Тривалість</th><th class=\"ds-price-num\">Майстри</th><th class=\"ds-price-num\">Маріанна</th></tr></thead><tbody><tr><th>Ламінування вій<small>Фарбування входить</small></th><td class=\"ds-price-t\">1 год</td><td class=\"ds-price-num\">від 1 350 ₴</td><td class=\"ds-price-num\">1 500 ₴</td></tr><tr><th>Фарбування вій</th><td class=\"ds-price-t\">15 хв</td><td class=\"ds-price-num\">від 350 ₴</td><td class=\"ds-price-num\">450 ₴</td></tr></tbody></table></div>",
+      "css": ".ds-price { padding: 24px; background: var(--color-paper); color: var(--color-espresso); font-family: var(--font-sans); } .ds-price-h { margin: 0; font-family: var(--font-display); font-weight: 400; font-stretch: 72%; font-size: clamp(1.875rem, 3.4vw, 3.25rem); line-height: 1.08; letter-spacing: -0.012em; } .ds-price table { width: 100%; margin-top: 0.75rem; border-collapse: collapse; font-size: 0.9375rem; line-height: 1.35; } .ds-price thead th { font-weight: 400; font-size: 0.8125rem; color: var(--color-bark); padding: 0.25rem 0 0.5rem; text-align: left; } .ds-price tbody th { font-weight: 400; text-align: left; padding: 0.5rem 0.5rem 0.5rem 0; } .ds-price tbody td { padding: 0.5rem 0; vertical-align: top; } .ds-price tbody tr { transition: color 0.2s; } .ds-price tbody tr:hover { color: var(--color-brass-deep); } .ds-price small { display: block; margin-top: 0.15rem; font-size: 0.8125rem; color: var(--color-bark); } .ds-price .ds-price-t { color: var(--color-bark); white-space: nowrap; padding-inline: 0.75rem 0.5rem; } .ds-price .ds-price-num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums lining-nums; padding-left: 0.75rem; } .ds-price tbody .ds-price-num { font-weight: 500; }"
+    },
+    {
+      "name": "Фоторейка прайса",
+      "kind": "custom",
+      "description": "На странице цен у каждой группы разделов слева одно фото 3:4 в колонках 1–3 с вылетом за левое поле. Оно position: sticky и стоит на месте, пока справа листается прайс группы; таблицы всегда начинаются с пятой колонки.",
+      "html": "<div class=\"ds-rail\"><div class=\"ds-rail-ph\"></div><div class=\"ds-rail-tbl\">Прайс групи</div></div>",
+      "css": ".ds-rail { display: grid; grid-template-columns: 3fr 1fr 8fr; align-items: start; min-height: 320px; padding: 24px 24px 24px 0; background: var(--color-paper); color: var(--color-espresso); font-family: var(--font-sans); } .ds-rail-ph { position: sticky; top: 1.5rem; aspect-ratio: 3 / 4; background: var(--color-sand); } .ds-rail-tbl { grid-column: 3; }"
+    },
+    {
+      "name": "Кредит",
+      "kind": "custom",
+      "refersTo": "credit-on-paper",
+      "description": "Подпись под работой: только услуга и имя мастера.",
+      "html": "<figure class=\"ds-fig\"><div class=\"ds-fig-ph\"></div><figcaption class=\"ds-credit\">Зачіска · Софія, макіяж · Маріанна</figcaption></figure>",
+      "css": ".ds-fig { margin: 0; padding: 24px; width: 240px; background: var(--color-paper); font-family: var(--font-sans); } .ds-fig-ph { aspect-ratio: 3 / 4; background: var(--color-sand); } .ds-credit { display: block; margin-top: 0.5rem; font-size: 0.8125rem; line-height: 1.35; color: var(--color-bark); }"
+    },
+    {
+      "name": "Цитата і рейтинг",
+      "kind": "custom",
+      "description": "Главная цитата разворота антиквой, подпись мелко; звёзды цветом акцента и ссылка на карточку Google.",
+      "html": "<div class=\"ds-quote\"><p class=\"ds-quote-rate\"><a href=\"#\"><span class=\"ds-stars\" aria-hidden=\"true\"><svg viewBox=\"0 0 20 20\"><path d=\"M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4 5.9-.7z\"/></svg><svg viewBox=\"0 0 20 20\"><path d=\"M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4 5.9-.7z\"/></svg><svg viewBox=\"0 0 20 20\"><path d=\"M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4 5.9-.7z\"/></svg><svg viewBox=\"0 0 20 20\"><path d=\"M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4 5.9-.7z\"/></svg><svg viewBox=\"0 0 20 20\"><path d=\"M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4 5.9-.7z\"/></svg></span>5,0 з 5, 183 відгуки</a></p><blockquote><p>…це, чесно, вперше, коли після салону мені не треба місяць звикати до нової стрижки</p><footer>Veronika Dykhtiar, місяць тому</footer></blockquote></div>",
+      "css": ".ds-quote { padding: 24px; background: var(--color-paper); color: var(--color-espresso); font-family: var(--font-sans); } .ds-quote-rate { margin: 0 0 1.5rem; } .ds-quote-rate a { display: inline-flex; align-items: center; min-height: 2.75rem; color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); text-underline-offset: 0.25em; } .ds-quote-rate a:hover { text-decoration-color: var(--color-brass-deep); } .ds-quote-rate a:focus-visible { outline: 2px solid var(--color-brass-deep); outline-offset: 4px; } .ds-stars { display: inline-flex; gap: 2px; margin-right: 0.5rem; color: var(--color-brass-deep); } .ds-stars svg { width: 1em; height: 1em; fill: currentColor; } .ds-quote blockquote { margin: 0; } .ds-quote blockquote p { margin: 0; font-family: var(--font-display); font-weight: 400; font-stretch: 80%; font-size: clamp(1.875rem, 3.4vw, 3.25rem); line-height: 1.08; letter-spacing: -0.012em; } .ds-quote footer { margin-top: 1rem; font-size: 0.9375rem; line-height: 1.45; color: var(--color-bark); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Обкладинка",
+    "overview": "Сайт собран как один номер глянцевого журнала про конкретный салон, с его владелицей на обложке. Страница листается разворотами: тёмное поле цвета эспрессо, светлый «бумажный» разворот, почти чёрный колофон. Фотографии здесь не иллюстрации в рамках, а отпечатки, положенные на страницу: они заходят на огромные буквы, вылезают за край поля и свисают с одного разворота на следующий.\n\nПлотность журнальная, а не лендинговая: много воздуха вокруг заголовков, мало элементов интерфейса. Кнопок в привычном смысле нет вообще, действие выглядит как строка текста с латунной линией под ней. Вся выразительность идёт от композиции и одной узкой прямой антиквы, а не от декора, теней или скруглений.\n\nСистема сознательно уходит от бьюти-шаблона: никакого split-hero, никаких арок на кремовом фоне, никаких рядов одинаковых карточек и секций одного устройства. Каждый разворот построен по-своему на общей сетке из 12 колонок.",
+    "keyCharacteristics": [
+      "Три поля: эспрессо, бумага, чернила. Каждое само задаёт свой второстепенный текст и свой акцент.",
+      "Огромное слово узкой антиквой и фотоотпечаток поверх него (обложка и «Весілля»); в подвале и на 404 слово стоит одно, без фото.",
+      "Одно действие на вид: текст с латунной линией.",
+      "Плоско и прямоугольно: ни теней, ни скруглений, ни разделительных линий.",
+      "Подпись под фото есть только как кредит мастера.",
+      "Движутся отпечатки, текст стоит на месте."
+    ],
+    "rules": [
+      {
+        "name": "The Field Rule",
+        "body": "Цвет никогда не назначается элементу напрямую. Секция получает одно из трёх полей (`.on-espresso`, `.on-ink`, `.on-paper`), а поле выставляет фон, цвет текста, `--mute` и `--accent`. Компоненты читают только `--mute` и `--accent`, поэтому один и тот же прайс или кредит корректно работает на любом поле.",
+        "section": "colors"
+      },
+      {
+        "name": "The Brass On Dark Rule",
+        "body": "`brass` как текст или линия живёт только на эспрессо и чернилах. На бумаге его контраст 1.71:1, там его место занимает `brass-deep`. Проверка: `brass` в стилях встречается только внутри определений полей, выделения и фокуса.",
+        "section": "colors"
+      },
+      {
+        "name": "The 4.5 Rule",
+        "body": "Любая пара «текст на фоне» держит минимум 4.5:1. Самая слабая пара системы: `brass-deep` на бумаге, 5.17:1.",
+        "section": "colors"
+      },
+      {
+        "name": "The Upright Rule",
+        "body": "Курсива нет нигде, включая `<address>`. Акцент в заголовке не выделяется ни начертанием, ни цветом.",
+        "section": "typography"
+      },
+      {
+        "name": "The Width Not Weight Rule",
+        "body": "У антиквы один вес, 400. Иерархия внутри неё строится кеглем и осью `wdth`: 62.5% для слова-масштаба, 66% для гигантских строк, 72% по умолчанию, 80% для многострочных цитат.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Kicker Rule",
+        "body": "Над заголовком ничего не стоит: ни надзаголовка, ни метки раздела, ни номера. Уточнение идёт под заголовком, кеглем Title и цветом `--mute`.",
+        "section": "typography"
+      },
+      {
+        "name": "The Text Size Price Rule",
+        "body": "Цена набирается кеглем основного текста (0.9375–1rem, вес 500, табличные цифры) и никогда антиквой или крупнее текста. Крупным набирается название направления, цена стоит рядом мелко.",
+        "section": "typography"
+      },
+      {
+        "name": "The Plates Settle Rule",
+        "body": "Движутся только фотоотпечатки. Текст не въезжает, не проявляется и не прячется до анимации.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Flat Rule",
+        "body": "Никаких `box-shadow`, свечений и размытий. Если элементу нужна глубина, его кладут поверх соседнего поля.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do начинать каждую секцию с выбора поля (`.on-espresso`, `.on-ink`, `.on-paper`) и брать второстепенный цвет и акцент только из `--mute` и `--accent`.",
+      "Do оформлять любое действие как `.act`: текст весом 500 с линией `--accent` 1px, высота нажатия 2.75rem.",
+      "Do класть фото поверх слова, края окна или стыка двух полей; каждый разворот компоновать на 12 колонках по-своему.",
+      "Do набирать цены кеглем основного текста, весом 500, табличными цифрами, с выравниванием вправо.",
+      "Do подписывать работу кредитом мастера в формате «Послуга · Ім'я» и только когда имя известно.",
+      "Do строить иерархию антиквы кеглем и осью `wdth` (62.5 / 66 / 72 / 80%) при весе 400.",
+      "Do держать контраст любой пары текст/фон не ниже 4.5:1 и цели нажатия не ниже 44px.",
+      "Do оставлять движение отпечаткам и только под `prefers-reduced-motion: no-preference`."
+    ],
+    "donts": [
+      "Don't использовать арку как маску фото. Арка есть только в знаке логотипа и на фотографии зеркал.",
+      "Don't использовать курсив, ни в заголовках, ни в тексте.",
+      "Don't ставить надзаголовок, метку или номер над заголовком.",
+      "Don't разделять строки и разделы прайса тонкими линиями; их разделяет воздух.",
+      "Don't набирать цену крупнее основного текста или антиквой.",
+      "Don't писать под фото описательные подписи; подпись бывает только кредитом.",
+      "Don't использовать `brass` на бумаге; там акцент `brass-deep`.",
+      "Don't заводить второй вид действия: залитую кнопку, кнопку с рамкой, пилюлю.",
+      "Don't добавлять тени, скругления, градиенты и карточки.",
+      "Don't возвращаться к отвергнутой подаче: split-hero, ряд одинаковых арок-карточек, кремовый фон с антиквой, секции одного устройства.",
+      "Don't ставить фото владелицы в соседних блоках и больше двух раз на весь сайт (правка заказчика 21.11.2026). Сейчас она только на обложке.",
+      "Don't ставить маленькое фото «для акцента» рядом с большим или в углу секции: у каждого кадра понятная роль и нормальный размер.",
+      "Don't оставлять пустую половину секции рядом с фото: колонка текста заполняет высоту кадра."
+    ]
+  }
+}

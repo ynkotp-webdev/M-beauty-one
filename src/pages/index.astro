@@ -1,0 +1,447 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import StoryOrbit from '../components/StoryOrbit.astro';
+import { salon, uah, base } from '../data/salon';
+import { sections } from '../data/prices';
+import * as rv from '../data/reviews';
+
+import cover from '../assets/cover.jpg';
+import coverHair from '../assets/cover-hair.png';
+import mirrors from '../assets/salon-mirrors.jpg';
+import sorbet from '../assets/sorbet.jpg';
+import prosecco from '../assets/prosecco.jpg';
+import cup from '../assets/coffee-cup.jpg';
+import hahoSmooth from '../assets/haho-sleek.jpg';
+import wBob from '../assets/w-bob.jpg';
+import wMilk from '../assets/w-nails-milk.jpg';
+import wRed from '../assets/w-redlips.jpg';
+import wUpdo from '../assets/w-updo.jpg';
+import wBrows from '../assets/w-brows.jpg';
+import wWaves from '../assets/w-waves.jpg';
+import wCoupe from '../assets/w-nails-coupe.jpg';
+import wProfile from '../assets/w-profile.jpg';
+import bride from '../assets/bride-veil.jpg';
+import brideWork from '../assets/bride-hair-work.jpg';
+import vanity from '../assets/vanity.jpg';
+
+const q = 68;
+const haho = sections.find((s) => s.id === 'dohlyad')!.rows!.filter((r) => r.name.includes('Hahonico'));
+// Роботи: чотири колонки з різним зсувом. Кредит тільки там, де майстра названо в дописі.
+const works = [
+  [
+    { src: wBob, alt: 'Каре з рівним зрізом', credit: "Стрижка · Мар'яна" },
+    { src: wMilk, alt: 'Молочний манікюр', credit: 'Манікюр · Діана' },
+  ],
+  [
+    { src: wRed, alt: 'Вечірній макіяж із червоною помадою і зібране волосся', credit: 'Зачіска · Софія, макіяж · Маріанна' },
+    { src: wUpdo, alt: 'Напівзібрана зачіска з м’якими хвилями', credit: 'Зачіска · Софія' },
+  ],
+  [
+    { src: wBrows, alt: 'Довготривала укладка брів', credit: 'Брови · Маріанна' },
+    { src: wWaves, alt: 'Голлівудські локони і макіяж', credit: 'Укладка · Анна, макіяж · Юліана' },
+  ],
+  [
+    { src: wCoupe, alt: 'Бордовий манікюр, рука тримає келих', credit: 'Манікюр · Діана' },
+    { src: wProfile, alt: 'Макіяж і гладко зібране волосся, профіль', credit: 'Зачіска · Софія, макіяж · Таня' },
+  ],
+];
+const [leadReview, ...photoReviews] = rv.photos;
+const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4 5.9-.7z';
+---
+
+<Base
+  title="M Beauty One: салон краси в центрі Львова"
+  description="Салон краси M Beauty One на пл. Євгена Маланюка, 4 у Львові: макіяж, зачіски, брови, вії, манікюр, стрижки, фарбування і відновлення волосся Hahonico. Онлайн-запис."
+>
+  <section slot="first" class="cover on-espresso">
+    <p class="mast serif" aria-hidden="true">M Beauty One</p>
+    <figure class="plate">
+      <Image src={cover} alt="Маріанна, власниця салону M Beauty One" widths={[320, 452, 640, 904]} sizes="(max-width: 760px) 78vw, 31.4vw" quality={74} loading="eager" fetchpriority="high" />
+      <span class="mast serif" aria-hidden="true">M Beauty One</span>
+      <Image class="hair" src={coverHair} alt="" widths={[320, 452, 640, 904]} sizes="(max-width: 760px) 78vw, 31.4vw" loading="eager" />
+    </figure>
+    <div class="l">
+      <h1 class="serif">Салон краси в&nbsp;центрі Львова</h1>
+      <p class="mute">Макіяж, зачіски, брови, манікюр і догляд за волоссям.</p>
+      <p class="mute spot">{salon.address}</p>
+    </div>
+    <div class="r">
+      <p class="serif name">Маріанна</p>
+      <p class="mute">власниця салону, візажистка і бровістка</p>
+      <a class="act act-lg" href={salon.booking} target="_blank" rel="noopener">Записатися онлайн</a>
+    </div>
+  </section>
+
+  <section class="salon on-paper">
+    <div class="wrap grid12">
+      <figure class="room"><Image src={mirrors} alt="Арочні дзеркала з підсвіткою, чорні бра з латунню і живі квіти в салоні" widths={[480, 720, 960, 1280]} sizes="(max-width: 900px) 100vw, 42vw" quality={q} loading="lazy" /></figure>
+      <div class="facts">
+        <div class="top">
+        <h2 class="serif h2">Салон на площі Маланюка</h2>
+        <p>Відкрилися навесні 2025 року в центрі Львова. Інтер'єр створювали разом із Мартою, <a class="link" href="https://www.instagram.com/mimoza_designer/" target="_blank" rel="noopener">@mimoza_designer</a>.</p>
+        <p class="rate">
+          <a class="link tap" href={salon.maps} target="_blank" rel="noopener">
+            <span class="stars" aria-hidden="true">{[0, 1, 2, 3, 4].map(() => <svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4 5.9-.7z" /></svg>)}</span>
+            {salon.rating} у Google, {salon.reviewsCount} відгуки
+          </a>
+        </p>
+        <p class="mute">Працюємо на Davines і Hahonico.</p>
+        </div>
+        <blockquote class="voice">
+          <p class="serif">…місця, яке втілює моє розуміння краси, сервісу, комфорту та любові до себе.</p>
+          <footer class="small mute">Маріанна про свій салон</footer>
+        </blockquote>
+      </div>
+
+      <blockquote class="guest">
+        <p class="serif">«{rv.guest.text}»</p>
+        <footer class="small mute">{rv.guest.name}, {rv.guest.about}, <a class="link" href={salon.maps} target="_blank" rel="noopener">відгук у Google</a></footer>
+      </blockquote>
+      <p class="treats">Кава, великий вибір чаїв, сорбет з манго, келих просекко. І завжди живі квіти.</p>
+      <figure class="t1"><Image src={sorbet} alt="Дві порції мангового сорбету на таці" widths={[320, 480, 720]} sizes="(max-width: 900px) 72vw, 25vw" quality={q} loading="lazy" /></figure>
+      <figure class="t2"><Image src={prosecco} alt="Келих просекко в руці" widths={[240, 360, 540]} sizes="(max-width: 900px) 46vw, 17vw" quality={q} loading="lazy" /></figure>
+      <figure class="t3"><Image src={cup} alt="Паперовий стаканчик з логотипом салону" widths={[240, 360, 540]} sizes="(max-width: 900px) 52vw, 17vw" quality={q} loading="lazy" /></figure>
+    </div>
+  </section>
+
+  <section class="idx on-espresso" id="posluhy">
+    <div class="wrap grid12">
+      <div class="head">
+        <h2 class="serif h2">Послуги</h2>
+        <div>
+          <p class="mute">«Від» рахуємо за найдешевшою основною послугою напряму, без доповнень. Ціни з онлайн-запису на {salon.pricesDate}.</p>
+          <a class="act" href={`${base}/tsiny`}>Усі послуги і ціни</a>
+        </div>
+      </div>
+      <ul class="wall">
+        {sections.map((s) => (
+          <li>
+            <a href={`${base}/tsiny#${s.id}`}>
+              <span class="serif n">{s.title}</span>
+              <span class="p">від {uah(s.from)}{s.fromNote ? `, ${s.fromNote}` : ''}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="haho on-ink">
+    <div class="wrap grid12">
+      <figure class="f1">
+        <Image src={hahoSmooth} alt="Довге гладке блискуче темне волосся, прямий проділ" widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 42vw" quality={q} loading="lazy" />
+      </figure>
+      <div class="txt">
+        <h2 class="serif h2">Hahonico</h2>
+        <p class="serif h3 sub">Японське SPA-відновлення волосся</p>
+        <p>Доглядова процедура на натуральних амінокислотах, кератині, ліпідах і рослинних екстрактах. Без формальдегіду, силіконів і агресивної хімії. Можна вагітним, під час грудного вигодовування і дітям, а також після блондування. Ефект накопичується з кожною процедурою.</p>
+        <dl class="len">
+          {haho.map((r) => (
+            <div>
+              <dt>{r.name.replace('Відновлення Hahonico, довжина', 'Довжина')}</dt>
+              <dd>{uah(r.price)}</dd>
+              <dd class="mute small">{r.time}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="gift">Укладка на браш у подарунок.</p>
+        <blockquote class="q">
+          <p>{rv.hahonico.text}</p>
+          <footer class="small mute">{rv.hahonico.name}, {rv.hahonico.about}, <a class="link" href={salon.maps} target="_blank" rel="noopener">відгук у Google</a></footer>
+        </blockquote>
+        <p class="mute dav">Є ще «Кератинове диво» Davines на рослинному кератині, для сухого й пошкодженого волосся: 2&nbsp;000, 2&nbsp;200 або 2&nbsp;500&nbsp;₴ залежно від довжини.</p>
+        <a class="act" href={salon.booking} target="_blank" rel="noopener">Записатися на догляд</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="works on-paper" id="roboty">
+    <div class="wrap">
+      <div class="head">
+        <h2 class="serif h2">Роботи</h2>
+        <a class="act" href={salon.instagram} target="_blank" rel="noopener">Більше в Instagram</a>
+      </div>
+      <div class="cols">
+        {[works.slice(0, 2), works.slice(2)].map((pair) => (
+          <div class="pair">
+            {pair.map((col) => (
+              <div class="col">
+                {col.map((w) => (
+                  <figure>
+                    <Image src={w.src} alt={w.alt} widths={[240, 360, 540, 720]} sizes="(max-width: 900px) 46vw, 24vw" quality={q} loading="lazy" />
+                    <figcaption class="credit">{w.credit}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="wed on-espresso">
+    <div class="wrap grid12">
+      <div class="txt">
+        <h2 class="serif h2">Весілля та події</h2>
+        <ul class="three">
+          <li><b>Пробний макіяж і зачіска.</b> Погоджуємо образ заздалегідь, до дня весілля.</li>
+          <li><b>Ранок нареченої в салоні.</b> Збори в центрі міста, фотозона і частування.</li>
+          <li><b>Виїзд на локацію.</b> Майстер або команда, у Львові та за містом.</li>
+        </ul>
+        <a class="act" href={`${base}/vesillia`}>Формати, ціни і як усе проходить</a>
+      </div>
+      <figure class="f1">
+        <Image src={bride} alt="Наречена у фаті, весільний макіяж і зачіска" widths={[360, 540, 720, 960]} sizes="(max-width: 900px) 78vw, 33vw" quality={q} loading="lazy" />
+        <figcaption class="credit">Макіяж · Марія, зачіска · Софія</figcaption>
+      </figure>
+      <figure class="f2"><Image src={brideWork} alt="Майстриня у футболці салону закінчує весільну зачіску" widths={[240, 360, 540]} sizes="(max-width: 900px) 46vw, 17vw" quality={q} loading="lazy" /></figure>
+    </div>
+  </section>
+
+  <section class="learn on-paper">
+    <div class="wrap grid12">
+      <figure class="vanity"><Image src={vanity} alt="Косметика на робочому столі Маріанни" widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 42vw" quality={q} loading="lazy" /></figure>
+      <div class="cls">
+        <h2 class="serif h2">Навчання</h2>
+        <div class="two">
+          <div>
+            <h3 class="serif h3">Self Make Up Class</h3>
+            <p>Аналіз косметички, догляд, лайфхаки й техніки на щодень і на свята.</p>
+            <p class="meta">2 год · 4&nbsp;000&nbsp;₴, у Маріанни 5&nbsp;500&nbsp;₴</p>
+          </div>
+          <div>
+            <h3 class="serif h3">Self Hair Class</h3>
+            <p>Майстер навчить укладці чи зачісці.</p>
+            <p class="meta">2 год · 4&nbsp;000&nbsp;₴</p>
+          </div>
+        </div>
+        <blockquote class="q">
+          <p>{rv.lesson.text}</p>
+          <footer class="small mute">{rv.lesson.name}, {rv.lesson.about}, <a class="link" href={salon.maps} target="_blank" rel="noopener">відгук у Google</a></footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="rev on-paper" id="vidhuky">
+    <div class="wrap grid12">
+      <div class="head">
+        <h2 class="serif h2">Відгуки</h2>
+        <p>
+          <a class="link tap" href={salon.maps} target="_blank" rel="noopener">
+            <span class="stars" aria-hidden="true">{[0, 1, 2, 3, 4].map(() => <svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4 5.9-.7z" /></svg>)}</span>
+            {salon.rating} у Google, {salon.reviewsCount} відгуки
+          </a>
+        </p>
+        <p class="small mute">Цитати з Google дослівні, фото клієнтки додали до своїх відгуків. Натисніть на відгук, щоб прочитати його повністю.</p>
+      </div>
+      <figure class="lead">
+        <Image src={leadReview.photo} alt={leadReview.alt} widths={[360, 540, 720, 900]} sizes="(max-width: 900px) 100vw, 24vw" quality={q} loading="lazy" />
+        <blockquote>
+          <span class="stars" role="img" aria-label={`${leadReview.stars} з 5 зірок`}>{Array.from({ length: leadReview.stars }, () => <svg viewBox="0 0 20 20" aria-hidden="true"><path d={star} /></svg>)}</span>
+          <p class="serif">{leadReview.text}</p>
+          <footer class="small mute"><a class="link src" href={salon.maps} target="_blank" rel="noopener">{leadReview.name}</a>, {leadReview.about}</footer>
+        </blockquote>
+      </figure>
+      <ul class="pics">
+        {photoReviews.map((r) => (
+          <li>
+            <Image src={r.photo} alt={r.alt} widths={[240, 360, 540, 720]} sizes="(max-width: 900px) 38vw, 24vw" quality={q} loading="lazy" />
+            <blockquote>
+              <span class="stars" role="img" aria-label={`${r.stars} з 5 зірок`}>{Array.from({ length: r.stars }, () => <svg viewBox="0 0 20 20" aria-hidden="true"><path d={star} /></svg>)}</span>
+              <p>{r.text}</p>
+              <footer class="small mute"><a class="link src" href={salon.maps} target="_blank" rel="noopener">{r.name}</a>, {r.about}</footer>
+            </blockquote>
+          </li>
+        ))}
+      </ul>
+
+      <StoryOrbit title="Сторіз клієнток" stories={rv.stories} />
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  /* ---------- Обкладинка ---------- */
+  .cover { container-type: inline-size; position: relative; min-height: max(calc(100svh - 4rem), 56cqw); overflow: clip; }
+  .mast { position: absolute; left: 0; top: 0.4cqw; width: 100cqw; font-size: 16cqw; text-align: center; white-space: nowrap; text-transform: uppercase; font-stretch: 62.5%; }
+  .plate { --pw: 31.4cqw; --px: 36.2cqw; --py: 10.6cqw; position: absolute; left: var(--px); top: var(--py); width: var(--pw); overflow: hidden; }
+  .plate > img:first-child { aspect-ratio: 3 / 4; object-fit: cover; }
+  .plate .mast { left: calc(var(--px) * -1); top: calc(0.4cqw - var(--py)); color: var(--color-espresso); }
+  .plate .hair { position: absolute; left: 0; top: 0; }
+  .l, .r { position: absolute; bottom: clamp(2rem, 3.2cqw, 3rem); }
+  .l { left: var(--gut); width: 31cqw; }
+  .r { right: var(--gut); width: 22cqw; }
+  h1 { font-size: var(--t-headline); line-height: 0.98; }
+  .l p { margin-top: 1.1rem; max-width: 30ch; }
+  .l .spot { display: none; }
+  .name { font-size: var(--t-deck); }
+  .r .mute { margin-top: 0.5rem; }
+  .r .act { margin-top: 1.25rem; }
+
+  @media (max-width: 760px) {
+    .cover { min-height: calc(100svh - 3.5rem); padding: 114cqw var(--gut) 1.75rem; border-bottom: 2.25rem solid var(--color-paper); }
+    .mast { font-size: 15.4cqw; top: 1cqw; }
+    .plate { --pw: 78cqw; --px: 18cqw; --py: 9.5cqw; }
+    .plate .mast { top: calc(1cqw - var(--py)); }
+    .l, .r { position: static; width: auto; }
+    .l p { margin-top: 0.6rem; font-size: var(--t-small); }
+    .l .spot { display: block; margin-top: 0.2rem; font-size: var(--t-small); }
+    .r { margin-top: 1rem; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.6rem; }
+    .r .mute { margin: 0; font-size: var(--t-small); }
+    .r .act { margin-top: 0.4rem; flex-basis: 100%; }
+  }
+
+  /* Рух: відбиток лягає на сторінку. Без паралаксу на прокрутці: маска волосся покриває тільки
+     маківку, і фото, що їде вгору, затягувало літери на лоб і очі. */
+  @media (prefers-reduced-motion: no-preference) {
+    .plate { animation: lay 0.9s var(--ease-out) both; }
+    @keyframes lay { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+  }
+
+  /* ---------- Салон і довіра ---------- */
+  .salon { padding-block: clamp(4rem, 8vw, 7.5rem) clamp(5rem, 9vw, 9rem); }
+  .voice p { font-size: var(--t-deck); line-height: 1.06; font-stretch: 80%; text-wrap: balance; }
+  .voice footer { margin-top: 1.25rem; }
+  .room { grid-column: 1 / span 5; grid-row: 2; margin-left: calc(var(--gut) * -1); }
+  .room :global(img) { aspect-ratio: 4 / 5; object-fit: cover; }
+  .facts { grid-column: 7 / span 6; grid-row: 2; display: grid; align-content: space-between; gap: 3rem; }
+  .top { display: grid; gap: 1rem; }
+  .top h2 { margin-bottom: 0.75rem; }
+  .top p { max-width: 40ch; }
+  .rate { font-size: var(--t-lead); }
+  .rate .stars, .rev .stars { margin-right: 0.5rem; }
+  .guest { grid-column: 1 / span 7; grid-row: 3; margin-top: clamp(5rem, 10vw, 9rem); }
+  .guest p { font-size: var(--t-mega); line-height: 0.96; font-stretch: 66%; }
+  .guest footer { margin-top: 1.25rem; }
+  .treats { grid-column: 1 / span 4; grid-row: 4; margin-top: 2rem; font-size: var(--t-lead); }
+  .t1 { grid-column: 8 / span 3; grid-row: 3 / span 3; margin-top: clamp(5rem, 10vw, 9rem); }
+  .t2 { grid-column: 11 / span 2; grid-row: 3 / span 3; margin: clamp(11rem, 20vw, 19rem) calc(var(--gut) * -1) 0 0; }
+  .t3 { grid-column: 5 / span 2; grid-row: 4 / span 2; margin-top: 2rem; }
+  .t3 img { aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 58%; }
+  @media (max-width: 900px) {
+    .salon .grid12 > * { grid-column: 1 / -1; grid-row: auto; }
+    .room { margin: 0 calc(var(--gut) * -1); }
+    .facts { margin-top: 2rem; gap: 2.5rem; }
+    .guest { margin-top: 4rem; }
+    .treats { margin-top: 1.25rem; }
+    .t1 { width: 72%; margin-top: 2rem; }
+    .t2 { width: 46%; margin: -5rem 0 0 auto; position: relative; }
+    .t3 { width: 52%; margin-top: -3rem; }
+  }
+
+  /* ---------- Послуги: зміст номера ---------- */
+  .idx { padding-block: clamp(5rem, 9vw, 9rem) clamp(7rem, 12vw, 12rem); }
+  .idx .head { grid-column: 1 / -1; display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; }
+  .idx .head div { display: grid; gap: 0.75rem; justify-items: start; max-width: 40ch; }
+  .wall { grid-column: 1 / -1; margin-top: clamp(2.5rem, 5vw, 4.5rem); display: flex; flex-wrap: wrap; column-gap: clamp(1.5rem, 3.4vw, 3.5rem); row-gap: 0.5rem; }
+  .wall a { display: inline-flex; align-items: flex-start; gap: 0.6rem; min-height: 2.75rem; }
+  .n { font-size: var(--t-mega); transition: color 0.25s var(--ease-out); }
+  .p { margin-top: 0.85em; font-size: var(--t-small); line-height: 1.3; color: var(--mute); max-width: 14ch; }
+  .wall a:hover .n { color: var(--accent); }
+  @media (max-width: 900px) {
+    .idx .head { display: grid; justify-content: start; }
+    .wall { row-gap: 0.9rem; }
+    .wall li { flex-basis: 100%; }
+    .wall a { flex-direction: column; gap: 0; }
+    .wall .p { max-width: none; margin-top: 0.15rem; }
+    .p { max-width: none; margin-top: 0.7em; }
+  }
+
+  /* ---------- Hahonico ---------- */
+  .haho { padding-bottom: clamp(4rem, 7vw, 7rem); }
+  .haho .f1 { grid-column: 1 / span 5; grid-row: 1; margin: clamp(-7rem, -7vw, -4rem) 0 0 calc(var(--gut) * -1); position: relative; z-index: 1; }
+  .haho .txt { grid-column: 7 / span 6; grid-row: 1; padding-top: clamp(4rem, 8vw, 7.5rem); display: grid; gap: 1.25rem; justify-items: start; align-content: start; }
+  .sub { margin-top: -0.5rem; color: var(--mute); }
+  .haho .txt > p { max-width: 54ch; }
+  .len { display: flex; flex-wrap: wrap; gap: 0.75rem clamp(1.5rem, 3vw, 3rem); margin-top: 0.5rem; }
+  .len dt { color: var(--mute); font-size: var(--t-small); }
+  .len dd:first-of-type { font-size: var(--t-body); font-weight: 500; font-variant-numeric: tabular-nums lining-nums; }
+  .gift { color: var(--accent); }
+  .q p { font-size: var(--t-lead); line-height: 1.45; max-width: 46ch; }
+  .q footer { margin-top: 0.5rem; }
+  @media (max-width: 900px) {
+    .haho .grid12 > * { grid-column: 1 / -1; grid-row: auto; }
+    .haho .f1 { margin: -3rem calc(var(--gut) * -1) 0; }
+    .haho .txt { padding-top: 2.5rem; }
+  }
+
+  /* ---------- Роботи ---------- */
+  .works { padding-block: clamp(6rem, 11vw, 11rem) clamp(4rem, 8vw, 8rem); }
+  .works .head { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.75rem, 1.6vw, 1.5rem); margin-top: 2.5rem; }
+  .pair { display: grid; grid-template-columns: 0.82fr 1fr; gap: clamp(0.75rem, 1.6vw, 1.5rem); align-items: start; }
+  .pair:last-child { grid-template-columns: 1fr 0.74fr; }
+  .col { display: grid; gap: clamp(1.25rem, 2.4vw, 2.25rem); }
+  .pair:first-child .col:last-child { margin-top: 7rem; }
+  .pair:last-child .col:first-child { margin-top: 2.5rem; }
+  .pair:last-child .col:last-child { margin-top: 11rem; }
+  @media (max-width: 900px) {
+    .pair, .pair:last-child { grid-template-columns: 1fr; gap: 1.25rem; }
+    .pair .col, .pair:first-child .col:last-child, .pair:last-child .col:first-child, .pair:last-child .col:last-child { margin-top: 0; }
+    .pair:last-child { margin-top: 4rem; }
+  }
+
+  /* ---------- Весілля, анонс ---------- */
+  .wed { padding-bottom: clamp(5rem, 9vw, 9rem); }
+  .wed .txt { grid-column: 1 / span 5; grid-row: 1; padding-top: clamp(5rem, 9vw, 9rem); display: grid; gap: 1.75rem; justify-items: start; align-content: start; }
+  .three { display: grid; gap: 1rem; max-width: 44ch; }
+  .three b { font-weight: 500; display: block; }
+  .three li { color: var(--mute); }
+  .three b { color: var(--color-paper); }
+  .wed .f1 { grid-column: 8 / span 4; grid-row: 1; margin-top: clamp(-6rem, -6vw, -3rem); }
+  .wed .f2 { grid-column: 6 / span 2; grid-row: 1; align-self: end; margin-bottom: 4rem; }
+  @media (max-width: 900px) {
+    .wed .grid12 > * { grid-column: 1 / -1; grid-row: auto; }
+    .wed .txt { padding-top: 4rem; }
+    .wed .f1 { width: 78%; margin: 3rem 0 0 auto; }
+    .wed .f1 .credit { text-align: right; max-width: 52%; margin-left: auto; }
+    .wed .f2 { width: 38%; margin: -7rem 0 0; position: relative; }
+  }
+
+  /* ---------- Навчання ---------- */
+  .learn { padding-block: clamp(5rem, 9vw, 9rem) 0; }
+  .vanity { grid-column: 8 / span 5; grid-row: 1; margin-right: calc(var(--gut) * -1); }
+  .vanity img { aspect-ratio: 5 / 4; object-fit: cover; object-position: 50% 62%; }
+  .cls { grid-column: 1 / span 6; grid-row: 1; display: grid; gap: 2rem; align-content: start; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .two p { margin-top: 0.75rem; max-width: 32ch; }
+  .meta { font-variant-numeric: tabular-nums lining-nums; color: var(--mute); }
+  @media (max-width: 900px) {
+    .vanity, .cls { grid-column: 1 / -1; grid-row: auto; }
+    .vanity { margin-inline: calc(var(--gut) * -1); }
+    .cls { margin-top: 2.5rem; }
+    .two { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Відгуки ---------- */
+  .rev { padding-block: clamp(6rem, 10vw, 10rem) clamp(5rem, 9vw, 9rem); }
+  .rev .head { grid-column: 1 / span 4; display: grid; gap: 1rem; align-content: start; }
+  /* Головний відгук: фото клієнтки і велика цитата поруч */
+  .lead { grid-column: 6 / span 7; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 4fr); gap: clamp(1.5rem, 3vw, 3rem); align-items: end; }
+  .lead img, .pics img { aspect-ratio: 4 / 5; object-fit: cover; }
+  .lead blockquote { display: grid; gap: 1rem; justify-items: start; }
+  .lead p { font-size: var(--t-title); line-height: 1.1; font-stretch: 80%; text-wrap: balance; }
+  .lead .stars { font-size: 1.1rem; }
+  /* Решта: три колонки, середня зсунута вниз, як листи читачок у журналі */
+  .pics { grid-column: 1 / -1; margin-top: clamp(4rem, 8vw, 7rem); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(3rem, 5vw, 4.5rem) clamp(1.5rem, 4vw, 4rem); }
+  .pics li:nth-child(3n + 2) { margin-top: clamp(2rem, 6vw, 6rem); }
+  .pics blockquote { display: grid; gap: 0.6rem; justify-items: start; margin-top: 1.1rem; }
+  .pics p { max-width: 44ch; }
+  .rev blockquote .stars { margin: 0; font-size: 0.95rem; }
+  /* Відгук клікається цілком: посилання з імені розтягнуто на фото й цитату */
+  .lead, .pics li { position: relative; }
+  .src::after { content: ""; position: absolute; inset: 0; }
+  .lead:hover .src, .pics li:hover .src { text-decoration-color: var(--accent); }
+  @media (max-width: 900px) {
+    .rev .head, .lead, .pics { grid-column: 1 / -1; }
+    .lead { margin-top: 2.5rem; grid-template-columns: 1fr; }
+    .pics { grid-template-columns: 1fr; gap: 2.5rem; margin-top: 3.5rem; }
+    .pics li { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 1rem; align-items: start; }
+    .pics li:nth-child(3n + 2) { margin-top: 0; }
+    .pics blockquote { margin-top: 0; }
+  }
+</style>
