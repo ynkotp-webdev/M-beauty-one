@@ -1,0 +1,85 @@
+---
+// Заставка головної: знак малюється пером, під ним по літері набирається назва, потім знак летить у шапку,
+// а назва в напис на обкладинці. Раз за сесію; без JS і при reduced-motion її немає (клас .intro ставить Base у <head>).
+// Назва набрана тим самим кеглем, що .mast (--mast), і зменшена трансформом: посадка це масштаб рівно до 1.
+// Текст лишається одним вузлом, літери відкриває clip-path: якби кожна була в окремому тегу, Safari прибрав би
+// кернінг між ними і посадка стрибала б.
+import Mark from './Mark.astro';
+---
+<div class="splash" aria-hidden="true">
+  <span class="splash-m"><Mark draw /></span>
+  <p class="splash-w serif">M Beauty One</p>
+</div>
+<script is:inline>
+(function () {
+  var root = document.documentElement;
+  if (!root.classList.contains('intro')) return;
+  var q = function (s) { return document.querySelector(s); };
+  var box = q('.splash'), m = q('.splash-m'), w = q('.splash-w'), done = false, font = false, t;
+  var face = document.fonts.load('1em "Noto Serif Display Variable"', 'M BEAUTY ONE').then(function (f) { font = f.length > 0; }, function () {});
+  function type() {
+    if (done || !font) return; // шрифт не встиг: назви в заставці немає, зате немає й підміни шрифту на очах
+    var node = w.firstChild, n = node.length, r = document.createRange(), b = w.getBoundingClientRect(), kf = [];
+    r.setStart(node, 0);
+    for (var i = 1; i <= n; i++) {
+      r.setEnd(node, i);
+      kf.push({ clipPath: 'inset(-20% ' + (b.right - r.getBoundingClientRect().right) / b.width * 100 + '% -20% 0)', offset: (i - 1) / n, easing: 'step-end' });
+    }
+    kf.push({ clipPath: 'inset(-20%)', offset: 1 });
+    w.animate(kf, { duration: n * 68, fill: 'forwards' });
+  }
+  // Свій translate+scale у кожного елемента, за рамкою цілі. top: масштаб від верхньої кромки (назва), інакше від центру (знак)
+  function land(el, to, top) {
+    var b = to && to.getBoundingClientRect();
+    if (!b || !b.width || b.bottom <= 0 || b.top >= innerHeight) { el.style.opacity = 0; return; } // цілі не видно: не летить, гасне
+    var a = el.getBoundingClientRect(), k = new DOMMatrix(getComputedStyle(el).transform).a * b.width / a.width;
+    el.style.transform = 'translate(' + (b.left + b.width / 2 - a.left - a.width / 2) + 'px,' + (top ? b.top - a.top : b.top + b.height / 2 - a.top - a.height / 2) + 'px) scale(' + k + ')';
+  }
+  function end() { root.classList.remove('intro', 'intro-fly'); }
+  function fly(fast) {
+    if (done) return; done = true; clearTimeout(t);
+    if (getComputedStyle(box).visibility === 'hidden') return end(); // вкладка була у фоні, страховка CSS уже сховала заставку
+    if (fast === true) box.style.transitionDuration = m.style.transitionDuration = w.style.transitionDuration = '.22s';
+    land(m, q('.top .mark'));
+    land(w, q('.cover > .mast'), true);
+    root.classList.add('intro-fly');
+    setTimeout(end, fast === true ? 240 : 570);
+  }
+  // Відлік від першого кадру: з нього ж стартують CSS-анімації пера, тож набір і виліт не випереджають знак,
+  // коли перша відмальовка запізнилась. Шрифт чекаємо не довше 300 мс після початку набору.
+  requestAnimationFrame(function () {
+    setTimeout(function () { Promise.race([face, new Promise(function (r) { setTimeout(r, 300); })]).then(type); }, 950);
+    t = setTimeout(fly, 2250);
+  });
+  ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (e) {
+    addEventListener(e, function () { fly(true); }, { once: true, passive: true });
+  });
+})();
+</script>
+<style is:global>
+  .splash { display: none; }
+  /* --mh висота знака, --k масштаб назви відносно напису на обкладинці */
+  .intro .splash { --mh: 19vw; --k: .26; position: fixed; inset: 0; z-index: 100; container-type: inline-size; display: grid; align-content: center; justify-items: center; background: var(--color-espresso); color: var(--color-paper); transition: background-color .55s ease; animation: splash-off 0s 3.6s forwards; }
+  .intro .splash-m { height: var(--mh); aspect-ratio: 550 / 565.5; transition: transform .55s cubic-bezier(.7, 0, .2, 1), opacity .3s ease; }
+  .intro .splash-m svg { display: block; width: 100%; height: 100%; }
+  /* рамка назви на всю ширину, як у .mast; від'ємний відступ знизу прибирає з потоку висоту, якої після масштабу не видно */
+  .intro .splash-w { width: 100cqw; margin: calc(var(--mh) * .13 - .17em * var(--k)) 0 calc(1em * (var(--k) - 1)); font-size: var(--mast); font-stretch: 62.5%; text-transform: uppercase; text-align: center; white-space: nowrap; transform-origin: 50% 0; transform: translate(0, 0) scale(var(--k)); clip-path: inset(0 100% 0 0); transition: transform .55s cubic-bezier(.7, 0, .2, 1), opacity .3s ease; }
+  .intro-fly .splash { background-color: transparent; pointer-events: none; }
+  @media (max-width: 760px) {
+    /* поля як у .cover на телефоні: від них рахується cqw, і кегль назви виходить той самий, що в .mast */
+    .intro .splash { --mh: 46vw; --k: .6; padding-inline: var(--gut); }
+  }
+  /* перо: арка від вершини в обидва боки, стебло до вузла, петля з вузла, плечі «m» з вузла до ніжок */
+  .mk { stroke-dasharray: 1; stroke-dashoffset: 1; animation: mk-draw .8s cubic-bezier(.5, 0, .2, 1) forwards; }
+  .mk-s { animation-delay: .12s; animation-duration: .45s; }
+  .mk-l { animation-delay: .3s; animation-duration: .6s; }
+  .mk-m { animation-delay: .45s; animation-duration: .6s; }
+  /* Цілі посадки. Під непрозорою заставкою знак шапки, напис і фото обкладинки стоять готові: їх не видно,
+     а LCP не чекає кінця заставки (напис на десктопі і є LCP). На виліт, коли фон тане, вони ховаються;
+     посадка відкриває знак і напис, і тоді вже фото лягає на напис своєю анімацією lay. */
+  .intro .cover .plate { animation: none; }
+  .intro-fly .top .mark, .intro-fly .cover .mast { visibility: hidden; }
+  .intro-fly .cover .plate { clip-path: inset(0 0 100% 0); }
+  @keyframes mk-draw { to { stroke-dashoffset: 0; } }
+  @keyframes splash-off { to { visibility: hidden; } }
+</style>

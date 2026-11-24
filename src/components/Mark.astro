@@ -1,0 +1,28 @@
+---
+// Знак M Beauty One: арка з монограмою «m». Це ручне перемальовування растрового логотипа для концепту,
+// а не офіційний вектор салону. Контури й осі штрихів збирає scripts/mark.mjs із public/logo-mark.png.
+// draw: знак малюється пером (заставка). Кожна група під своєю маскою, бо стебло, петля і плечі сходяться
+// у вузлі: спільна маска товстим штрихом відкривала б сусідній контур завчасно. Таймінги .mk у Splash.astro.
+import mark from '../assets/mark.json';
+const { class: cls, draw = false } = Astro.props;
+const { shapes: s, axes: a } = mark;
+const area = { maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: 600, height: 590 };
+---
+<svg viewBox="25 10 550 565.5" class={cls} fill="currentColor" aria-hidden="true">
+  {draw ? (
+    <>
+      <defs stroke="#fff" fill="none">
+        <mask id="mk-arch" {...area}>{a.arch.map((d) => <path d={d} pathLength="1" class="mk" stroke-width="44" />)}</mask>
+        <mask id="mk-stem" {...area}><path d={a.stem} pathLength="1" class="mk mk-s" stroke-width="40" /></mask>
+        <mask id="mk-loop" {...area}>{a.loop.map((d) => <path d={d} pathLength="1" class="mk mk-l" stroke-width="42" />)}</mask>
+        <mask id="mk-m" {...area}>{a.m.map((d) => <path d={d} pathLength="1" class="mk mk-m" stroke-width="66" />)}</mask>
+      </defs>
+      <g mask="url(#mk-arch)"><path d={s.arch} fill-rule="evenodd" /></g>
+      <g mask="url(#mk-stem)"><path d={s.stem} /></g>
+      <g mask="url(#mk-loop)"><path d={s.loop} fill-rule="evenodd" /></g>
+      <g mask="url(#mk-m)">{s.m.map((d) => <path d={d} />)}</g>
+    </>
+  ) : (
+    <><path d={s.arch} fill-rule="evenodd" /><path d={s.stem} /><path d={s.loop} fill-rule="evenodd" />{s.m.map((d) => <path d={d} />)}</>
+  )}
+</svg>

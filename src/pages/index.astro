@@ -56,6 +56,7 @@ const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4
 ---
 
 <Base
+  splash
   title="M Beauty One: салон краси в центрі Львова"
   description="Салон краси M Beauty One на пл. Євгена Маланюка, 4 у Львові: макіяж, зачіски, брови, вії, манікюр, стрижки, фарбування і відновлення волосся Hahonico. Онлайн-запис."
 >
@@ -273,7 +274,7 @@ const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4
 <style>
   /* ---------- Обкладинка ---------- */
   .cover { container-type: inline-size; position: relative; min-height: max(calc(100svh - 4rem), 56cqw); overflow: clip; }
-  .mast { position: absolute; left: 0; top: 0.4cqw; width: 100cqw; font-size: 16cqw; text-align: center; white-space: nowrap; text-transform: uppercase; font-stretch: 62.5%; }
+  .mast { position: absolute; left: 0; top: 0.4cqw; width: 100cqw; font-size: var(--mast); text-align: center; white-space: nowrap; text-transform: uppercase; font-stretch: 62.5%; }
   .plate { --pw: 31.4cqw; --px: 36.2cqw; --py: 10.6cqw; position: absolute; left: var(--px); top: var(--py); width: var(--pw); overflow: hidden; }
   .plate > img:first-child { aspect-ratio: 3 / 4; object-fit: cover; }
   .plate .mast { left: calc(var(--px) * -1); top: calc(0.4cqw - var(--py)); color: var(--color-espresso); }
@@ -290,7 +291,7 @@ const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4
 
   @media (max-width: 760px) {
     .cover { min-height: 0; padding: 114cqw var(--gut) 1.75rem; border-bottom: 2.25rem solid var(--color-paper); }
-    .mast { font-size: 15.4cqw; top: 1cqw; }
+    .mast { top: 1cqw; }
     .plate { --pw: 78cqw; --px: 18cqw; --py: 9.5cqw; }
     .plate .mast { top: calc(1cqw - var(--py)); }
     .l, .r { position: static; width: auto; }
@@ -303,7 +304,8 @@ const star = 'M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6l-5.2 2.9L6 11.7l-4.4-4
   }
 
   /* Рух: відбиток лягає на сторінку. Без паралаксу на прокрутці: маска волосся покриває тільки
-     маківку, і фото, що їде вгору, затягувало літери на лоб і очі. */
+     маківку, і фото, що їде вгору, затягувало літери на лоб і очі.
+     Із заставкою (.intro) анімація чекає, поки назва сяде в напис: див. Splash.astro. */
   @media (prefers-reduced-motion: no-preference) {
     .plate { animation: lay 0.9s var(--ease-out) both; }
     @keyframes lay { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }

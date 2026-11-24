@@ -3,9 +3,11 @@ import '../styles/global.css';
 import serifLatin from '@fontsource-variable/noto-serif-display/files/noto-serif-display-latin-wdth-normal.woff2?url';
 import serifCyr from '@fontsource-variable/noto-serif-display/files/noto-serif-display-cyrillic-wdth-normal.woff2?url';
 import { salon, base } from '../data/salon';
+import Mark from '../components/Mark.astro';
+import Splash from '../components/Splash.astro';
 
-interface Props { title: string; description: string; }
-const { title, description } = Astro.props;
+interface Props { title: string; description: string; splash?: boolean; }
+const { title, description, splash = false } = Astro.props;
 const here = Astro.url.pathname.replace(/\/$/, '') || '/';
 const nav = [
   { href: `${base}/tsiny`, label: 'Послуги і ціни', short: 'Ціни' },
@@ -37,12 +39,25 @@ const nav = [
     <link rel="icon" href={`${base}/logo-mark.png`} />
     <link rel="preload" as="font" type="font/woff2" href={serifLatin} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={serifCyr} crossorigin />
+    {splash && (
+      <script is:inline>
+        // Заставка: раз за сесію, ?intro=1 показує знову, ?intro=0 вимикає. Клас стоїть до першої відмальовки.
+        try {
+          var f = /[?&]intro=1/.test(location.search);
+          if (!/[?&]intro=0/.test(location.search) && (f || !sessionStorage.getItem('mbo-intro')) && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+            document.documentElement.classList.add('intro');
+            sessionStorage.setItem('mbo-intro', '1');
+          }
+        } catch (e) {}
+      </script>
+    )}
   </head>
   <body>
+    {splash && <Splash />}
     <a class="skip" href="#main">До змісту</a>
     <header class="top on-espresso">
       <a class="brand" href={`${base}/`} aria-label="M Beauty One, головна">
-        <span class="mark" aria-hidden="true"></span>
+        <span class="mark" aria-hidden="true"><Mark /></span>
         <span class="addr">{salon.city}, {salon.address}</span>
       </a>
       <nav aria-label="Основна навігація">
@@ -170,7 +185,9 @@ const nav = [
 
   .top { display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2.25rem); min-height: 4rem; padding-inline: var(--gut); font-size: var(--t-small); }
   .brand { display: flex; align-items: center; gap: 0.75rem; margin-right: auto; min-height: 2.75rem; color: var(--mute); }
-  .mark { width: 1.9rem; aspect-ratio: 292 / 290; background: var(--color-paper); mask: url(/logo-mark.png) center / contain no-repeat; }
+  /* той самий SVG, що в заставці: вона садить знак точно в цю рамку. Розмір як у колишньої PNG-маски */
+  .mark { width: 1.79rem; aspect-ratio: 550 / 565.5; color: var(--color-paper); }
+  .mark :global(svg) { display: block; width: 100%; height: 100%; }
   .top nav { display: flex; gap: clamp(1rem, 2.4vw, 2.25rem); }
   .top nav a { display: inline-flex; align-items: center; min-height: 2.75rem; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.45em; transition: text-decoration-color 0.2s; }
   .top nav a:hover, .top nav a[aria-current] { text-decoration-color: var(--accent); }

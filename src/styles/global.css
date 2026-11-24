@@ -26,6 +26,11 @@
   --t-body: 1rem;
   --t-small: 0.9375rem;
   --t-label: 0.8125rem;
+  /* Кегль напису M BEAUTY ONE на обкладинці. Заставка набирає назву ним же, тому значення одне на двох */
+  --mast: 16cqw;
+}
+@media (max-width: 760px) {
+  :root { --mast: 15.4cqw; }
 }
 
 html {
