@@ -13,6 +13,12 @@ const nav = [
   { href: `${base}/tsiny`, label: 'Послуги і ціни', short: 'Ціни' },
   { href: `${base}/vesillia`, label: 'Весілля та події', short: 'Весілля' },
 ];
+const map = [
+  { href: `${base}/`, label: 'Головна' },
+  ...nav,
+  { href: `${base}/#roboty`, label: 'Роботи' },
+  { href: `${base}/#vidhuky`, label: 'Відгуки' },
+];
 ---
 
 <!doctype html>
@@ -97,6 +103,11 @@ const nav = [
               <li><a class="link" href={salon.instagram} target="_blank" rel="noopener">Instagram @m.beauty.one</a></li>
               <li><a class="link" href={salon.threads} target="_blank" rel="noopener">Threads @m.beauty.one</a></li>
             </ul>
+            <nav class="map" aria-label="Розділи сайту">
+              {map.map((n) => (
+                <a class="link tap small" href={n.href} aria-current={(n.href.replace(/\/$/, '') || '/') === here ? 'page' : undefined}>{n.label}</a>
+              ))}
+            </nav>
             <p class="note small mute">Це концепт сайту від YonkaAgency, зроблений без замовлення салону. Фото й тексти належать M Beauty One та авторам знімків.</p>
           </div>
           <p class="mast serif" aria-hidden="true">M Beauty One</p>
@@ -221,8 +232,11 @@ const nav = [
   .ways a { display: inline-flex; align-items: center; min-height: 2.75rem; }
   .tel { font-size: var(--t-lead); }
   .foot .mast { margin-top: 1rem; font-size: 16vw; text-transform: uppercase; text-align: center; white-space: nowrap; font-stretch: 62.5%; line-height: 1; height: 0.95em; color: var(--color-paper); }
-  .note { grid-column: 1 / span 7; grid-row: 2; max-width: 60ch; }
+  .note { grid-column: 1 / span 5; grid-row: 2; max-width: 60ch; }
+  /* Розділи сайту: рядок дрібних посилань під адресою й контактами */
+  .map { grid-column: 7 / -1; grid-row: 2; display: flex; flex-wrap: wrap; gap: 0 clamp(1rem, 2vw, 1.75rem); }
+  .map [aria-current] { text-decoration-color: var(--accent); }
   @media (max-width: 900px) {
-    .lead, .where, .ways, .note { grid-column: 1 / -1; grid-row: auto; }
+    .lead, .where, .ways, .map, .note { grid-column: 1 / -1; grid-row: auto; }
   }
 </style>
