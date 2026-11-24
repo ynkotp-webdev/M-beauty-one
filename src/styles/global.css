@@ -87,3 +87,37 @@ figure img { display: block; width: 100%; height: auto; }
 
 .wrap { padding-inline: var(--gut); }
 .grid12 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(0.75rem, 1.6vw, 1.5rem); }
+
+/* Курсор «кадрування» (скрипт у Base.astro): квадратна крапка і чотири мітки обрізу, як на журнальній верстці.
+   На посиланнях мітки беруть елемент у кадр, над каруселлю кадр стає плашкою «тягни».
+   Клас .cur ставить скрипт, тому без JS, на тачі й у планшеті курсор звичайний */
+.cur, .cur * { cursor: none !important; }
+.cur-dot, .cur-frame {
+  --c: var(--color-brass); --on: var(--color-ink);
+  position: fixed; left: 0; top: 0; z-index: 1000; pointer-events: none; transition: opacity 0.25s;
+  filter: drop-shadow(0 0 1px color-mix(in srgb, var(--on) 85%, transparent)); /* контур, щоб мітки не губилися на фото */
+}
+[data-cur-tone='paper'] :is(.cur-dot, .cur-frame) { --c: var(--color-espresso); --on: var(--color-paper); }
+.cur-off :is(.cur-dot, .cur-frame) { opacity: 0; }
+.cur-dot { width: 4px; height: 4px; margin: -2px 0 0 -2px; background: var(--c); }
+.cur-frame {
+  --l: 9px; --t: 2px; --m: linear-gradient(var(--c) 0 0);
+  display: grid; place-items: center; width: 28px; height: 28px;
+  background:
+    var(--m) left top / var(--l) var(--t), var(--m) left top / var(--t) var(--l),
+    var(--m) right top / var(--l) var(--t), var(--m) right top / var(--t) var(--l),
+    var(--m) left bottom / var(--l) var(--t), var(--m) left bottom / var(--t) var(--l),
+    var(--m) right bottom / var(--l) var(--t), var(--m) right bottom / var(--t) var(--l);
+  background-repeat: no-repeat;
+  transition: opacity 0.25s, scale 0.25s var(--ease-out);
+}
+.cur-frame span {
+  padding: 0.3rem 0.75rem 0.4rem; background: var(--c); color: var(--on); white-space: nowrap;
+  font-family: var(--font-display); font-stretch: 80%; font-size: var(--t-lead); line-height: 1; letter-spacing: 0.01em;
+  opacity: 0; scale: 0.6; transition: opacity 0.2s, scale 0.35s var(--ease-out);
+}
+[data-cur='drag'] .cur-frame span { opacity: 1; scale: 1; }
+[data-cur='drag'] .cur-dot { opacity: 0; }
+[data-cur-press] .cur-frame { scale: 0.86; }
+[data-cur='drag'][data-cur-press] .cur-frame { scale: 0.94 1; }
+@media (prefers-reduced-motion: reduce) { .cur-frame, .cur-frame span { transition: opacity 0.2s; } }

@@ -94,6 +94,70 @@ const nav = [
         </nav>
       </div>
     </main>
+
+    <script>
+      // Курсор «кадрування». Крапка точно під мишею, кадр із міток обрізу м'яко її наздоганяє. На посиланні й кнопці
+      // кадр обхоплює елемент (великі рядки прайсу лише стискають кадр), над каруселлю стає плашкою «тягни».
+      // Колір бере поле під мишею: латунь на темному, еспресо на папері. Тільки миша
+      const root = document.documentElement;
+      if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const dot = document.createElement('div'), frame = document.createElement('div'), label = document.createElement('span');
+        dot.className = 'cur-dot'; frame.className = 'cur-frame';
+        dot.setAttribute('aria-hidden', 'true'); frame.setAttribute('aria-hidden', 'true');
+        frame.append(label); document.body.append(frame, dot);
+        root.classList.add('cur', 'cur-off');
+        const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let x = 0, y = 0, raf = 0, tap: Element | null = null;
+        const f = { x: 0, y: 0, w: 28, h: 28 };
+        const goal = () => {
+          const m = root.dataset.cur;
+          if (m === 'link' && tap) {
+            const r = tap.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+            return { x: cx + (x - cx) * 0.12, y: cy + (y - cy) * 0.12, w: r.width + 14, h: r.height + 10 };
+          }
+          if (m === 'drag') return { x, y, w: label.offsetWidth + 14, h: label.offsetHeight + 14 };
+          const s = m === 'big' ? 16 : 28;
+          return { x, y, w: s, h: s };
+        };
+        const tick = () => {
+          const g = goal(), k = still ? 1 : 0.2;
+          let d = 0;
+          for (const key of ['x', 'y', 'w', 'h'] as const) { f[key] += (g[key] - f[key]) * k; d += Math.abs(g[key] - f[key]); }
+          if (d < 0.3) Object.assign(f, g);
+          frame.style.transform = `translate(${(f.x - f.w / 2).toFixed(1)}px, ${(f.y - f.h / 2).toFixed(1)}px)`;
+          frame.style.width = `${f.w.toFixed(1)}px`; frame.style.height = `${f.h.toFixed(1)}px`;
+          raf = d < 0.3 ? 0 : requestAnimationFrame(tick);
+        };
+        const pick = (t: Element | null) => {
+          const orb = t?.closest('.orb');
+          tap = t?.closest('a, button, summary, label') ?? null;
+          let m = '';
+          if (orb && !t!.closest('.nav')) {
+            m = 'drag';
+            label.textContent = !orb.hasAttribute('data-drag') && t!.closest('[data-front] button') ? 'звук' : '← тягни →';
+          } else if (tap) {
+            const r = tap.getBoundingClientRect();
+            m = r.width > 360 || r.height > 120 ? 'big' : 'link';
+          }
+          if ((root.dataset.cur ?? '') !== m) root.dataset.cur = m;
+          const tone = t?.closest('.on-paper, .on-espresso, .on-ink')?.classList.contains('on-paper') ? 'paper' : '';
+          if ((root.dataset.curTone ?? '') !== tone) root.dataset.curTone = tone;
+          if (!raf) raf = requestAnimationFrame(tick);
+        };
+        addEventListener('pointermove', (e) => {
+          if (e.pointerType !== 'mouse') return;
+          x = e.clientX; y = e.clientY;
+          if (root.classList.contains('cur-off')) { f.x = x; f.y = y; root.classList.remove('cur-off'); }
+          dot.style.transform = `translate(${x}px, ${y}px)`;
+          pick(e.target as Element);
+        }, { passive: true });
+        // колесо крутить сторінку під нерухомою мишею: pointermove не приходить, тож елемент під нею шукаємо самі
+        addEventListener('scroll', () => { if (!root.classList.contains('cur-off')) pick(document.elementFromPoint(x, y)); }, { passive: true });
+        addEventListener('pointerdown', (e) => { if (e.pointerType === 'mouse') root.toggleAttribute('data-cur-press', true); else root.classList.add('cur-off'); });
+        addEventListener('pointerup', () => root.removeAttribute('data-cur-press'));
+        root.addEventListener('mouseleave', () => root.classList.add('cur-off'));
+      }
+    </script>
   <!-- impeccable-live-start -->
 <script is:inline src="http://localhost:8400/live.js?token=68386183-83fa-4434-a254-cea911b80231"></script>
 <!-- impeccable-live-end -->
